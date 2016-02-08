@@ -9,6 +9,7 @@ TARIF = Model:extend("TARIF", {
 --arrhes = 25%
 
 function getTarif(dateDeb,heb)
-  local tarif = TARIF:find(heb.NOHEB,dateDeb)
-  print(tarif.PRIXHEB)
+    local tarif = TARIF:find(heb.NOHEB,dateDeb)
+    print(tarif.PRIXHEB)
+    return tarif.PRIXHEB
 end

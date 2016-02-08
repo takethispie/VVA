@@ -23,13 +23,13 @@ end
 
 --need to be finished
 function book(heb,dateDeb,dateFin)
-    local price = getTarif(dateDeb,heb)
-    if tarif == nil then
+    local price = tonumber(getTarif(dateDeb,heb))
+    if price == nil then
         print("error no season")
     else
         local resDate = getCurrentDate()
         --session.hebergement.NBPLACEHEB
         local arrhes = (price/100.0)*25
-        print("arrhes: " + arrhes)
+        print("arrhes: "..arrhes)
     end
 end
