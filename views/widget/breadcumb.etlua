@@ -1,0 +1,12 @@
+<div class="page-title-breadcrumb">
+    <div class="page-header pull-left">
+        <div class="page-title"> Title </div>
+    </div>
+    <ol class="breadcrumb page-breadcrumb pull-right">
+        <li><i class="fa fa-home"></i>&nbsp;<a href="index">Acceuil</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+        <li><a href="#">Layouts</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+        <li class="active">something</li>
+    </ol>
+    <div class="clearfix">
+    </div>
+</div>

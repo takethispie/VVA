@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% render("views.widget.header") %>
+  <body>
+    <div>
+        <!--BEGIN BACK TO TOP-->
+        <a id="totop" href="#"><i class="fa fa-angle-up"></i></a>
+        <!--END BACK TO TOP-->
+        <% render("views.widget.topbar") %>
+        <!--BEGIN TITLE & BREADCRUMB PAGE-->
+        <% render("views.widget.breadcumb") %>
+        <!--END TITLE & BREADCRUMB PAGE-->
+        <!--BEGIN CONTENT-->
+        <% render("views.widget.profile") %>
+        <div id="footer">
+            <div class="copyright">
+                <a href="http://themifycloud.com">2015 © Dustcat</a></div>
+        </div>
+<script src="script/jquery-1.10.2.min.js"></script>
+<script src="script/jquery-migrate-1.2.1.min.js"></script>
+<script src="script/jquery-ui.js"></script>
+<script src="script/bootstrap.min.js"></script>
+<script src="script/bootstrap-hover-dropdown.js"></script>
+<script src="script/custom.min.js"></script>
+<script src="script/zabuto_calendar.min.js"></script>
+<script src="script/index.js"></script>
+</body>
+</html>

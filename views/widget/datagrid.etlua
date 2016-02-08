@@ -1,0 +1,108 @@
+<div class="row">
+<div class="col-lg-12">
+    <div class="panel">
+        <div class="panel-body">
+            <div id="grid-layout-div" class="box jplist">
+                <div class="jplist-ios-button"><i class="fa fa-sort"></i>jPList Actions</div>
+                <div class="jplist-panel box panel-top col-sm-12">
+                    <button type="button" data-control-type="reset" data-control-name="reset" data-control-action="reset" class="jplist-reset-btn btn btn-default">Reset<i class="fa fa-share mls"></i></button>
+                    <div data-control-type="drop-down" data-control-name="paging" data-control-action="paging" class="jplist-drop-down form-control">
+                        <ul class="dropdown-menu">
+                            <li><span data-number="3"> 3 par page</span></li>
+                            <li><span data-number="5"> 5 par page</span></li>
+                            <li><span data-number="10" data-default="true"> 10 par page</span></li>
+                            <li><span data-number="all"> Tout voir</span></li>
+                        </ul>
+                    </div>
+                    <div data-control-type="drop-down" data-control-name="sort" data-control-action="sort" data-datetime-format="{month}/{day}/{year}" class="jplist-drop-down form-control">
+                        <ul class="dropdown-menu">
+                            <li><span data-path="default">Trier par</span></li>
+                            <li><span data-path=".title" data-order="asc" data-type="text">Titre A-Z</span></li>
+                            <li><span data-path=".title" data-order="desc" data-type="text">Titre Z-A</span></li>
+                            <li><span data-path=".desc" data-order="asc" data-type="text">Description A-Z</span></li>
+                            <li><span data-path=".desc" data-order="desc" data-type="text">Description Z-A</span></li>
+                            <li><span data-path=".date" data-order="asc" data-type="datetime">Date asc</span></li>
+                            <li><span data-path=".date" data-order="desc" data-type="datetime">Date desc</span></li>
+                        </ul>
+                    </div>
+                    <div class="text-filter-box">
+                        <div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input data-path=".title" type="text" value="" placeholder="Filtrer par Titre" data-control-type="textbox" data-control-name="title-filter" data-control-action="filter" class="form-control"/></div>
+                    </div>
+                    <div class="text-filter-box">
+                        <div class="input-group">
+                          <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                          <input data-path=".desc" type="text" value="" placeholder="Filtrer par Description" data-control-type="textbox" data-control-name="desc-filter" data-control-action="filter" class="form-control"/></div>
+                    </div>
+                    <div data-type="Page {current} of {pages}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
+                    <div data-control-type="pagination" data-control-name="paging" data-control-action="paging" class="jplist-pagination"></div>
+                </div>
+
+                <div class="list box text-shadow ">
+                      <%
+              					a = 0
+                        count = tonumber(HEBERGEMENT:count())
+              					while a < count do
+              					session.hebergement = HEBERGEMENT:find(a)
+              				%>
+                        <div class="list-item box col-sm-11"><!--<img/>-->
+                            <div class="box img left"><img src=<%= session.hebergement.PHOTOHEB%> alt="" title=""></div>
+                            <!--<data></data>-->
+                            <div class="box block right">
+                                <p class="title"><%= session.hebergement.NOMHEB %></p>
+                                <div class="col-sm-2">
+                                  <p> Nombre de places: <%= session.hebergement.NBPLACEHEB%> </p>
+                                  <p>Surface Location: <%= session.hebergement.SURFACEHEB%></p>
+                                  <p>Internet: <% if session.hebergement.INTERNET == 1 then %> Oui <%else%> Non <%end%></p>
+                                  <p>Secteur Location: <%= session.hebergement.SECTEURHEB%></p>
+                                </div>
+                                <div class="col-sm-2">
+                                  <p class="desc"><h4>Description:</h4><%= session.hebergement.DESCRIHEB %></p>
+                                </div>
+                                <% if session.user ~= nil then
+                                if session.user.TYPECOMPTE == "VIL" or session.user.TYPECOMPTE == "ADM" or session.user.TYPECOMPTE == "AVV" then %>
+                                <form action="hebinfo" method="post">
+                                  <input name="ID" type="hidden" value=<%= a%> >
+                                  <input class="btn btn-green btn-datagrid" type="submit" value="Consulter">
+                                </form>
+                                <% else %>
+                                <!-- actually not working -->
+                                <div class="col-sm-2">
+                                  <p>Veuillez vous connecter</p>
+                                </div>
+                                <% end end%>
+                            </div>
+                        </div>
+                        <% a = a + 1 end %>
+                </div>
+                <div class="box jplist-no-results text-shadow align-center"><p>Aucun Resultat</p></div>
+                <div class="jplist-ios-button"><i class="fa fa-sort"></i>jPList Actions</div>
+                <div class="jplist-panel box panel-bottom">
+                    <div data-control-type="drop-down" data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true" class="jplist-drop-down form-control">
+                        <ul class="dropdown-menu">
+                            <li><span data-number="3"> 3 par page</span></li>
+                            <li><span data-number="5"> 5 par page</span></li>
+                            <li><span data-number="10" data-default="true"> 10 par page</span></li>
+                            <li><span data-number="all"> Tout voir</span></li>
+                        </ul>
+                    </div>
+                    <div data-control-type="drop-down" data-control-name="sort" data-control-action="sort" data-control-animate-to-top="true" data-datetime-format="{month}/{day}/{year}" class="jplist-drop-down form-control">
+                        <ul class="dropdown-menu">
+                            <li><span data-path="default">Trier par</span></li>
+                            <li><span data-path=".title" data-order="asc" data-type="text">Titre A-Z</span></li>
+                            <li><span data-path=".title" data-order="desc" data-type="text">Titre Z-A</span></li>
+                            <li><span data-path=".desc" data-order="asc" data-type="text">Description A-Z</span></li>
+                            <li><span data-path=".desc" data-order="desc" data-type="text">Description Z-A</span></li>
+                            <li><span data-path=".date" data-order="asc" data-type="datetime">Date asc</span></li>
+                            <li><span data-path=".date" data-order="desc" data-type="datetime">Date desc</span></li>
+                        </ul>
+                    </div>
+                    <div data-type="{start} - {end} of {all}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
+                    <div data-control-type="pagination" data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true" class="jplist-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="script/jquery-1.10.2.min.js"></script>
+<script src="script/jplist.min.js"></script>
+<script src="script/jplist.js"></script>

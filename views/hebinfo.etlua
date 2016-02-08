@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<% render("views.widget.header") %>
+
+<script src="script/jquery-1.10.2.min.js"></script>
+<script src="script/jplist.min.js"></script>
+<script src="script/jplist.js"></script>
+
+  <body>
+    <div>
+        <!--BEGIN BACK TO TOP-->
+        <a id="totop" href="#"><i class="fa fa-angle-up"></i></a>
+        <!--END BACK TO TOP-->
+        <% render("views.widget.topbar") %>
+        <!--BEGIN TITLE & BREADCRUMB PAGE-->
+        <% render("views.widget.breadcumb") %>
+        <!--END TITLE & BREADCRUMB PAGE-->
+        <!--BEGIN CONTENT-->
+        <div class="page-content">
+          <!--BEGIN CONTENT-->
+          <div class="page-content">
+            <div class="row mtl">
+              <div class="col-md-3 panel">
+                <div class="panel-body">
+                  <div class="form-group">
+                      <div class="text-center mbl"><img src=<%= session.hebergement.PHOTOHEB%> alt="" class="img-responsive"/></div>
+                  </div>
+                  <table class="table table-striped table-hover">
+                      <tbody>
+                      <tr>
+                          <td>Nombre de places</td>
+                          <td><%= session.hebergement.NBPLACEHEB%></td>
+                      </tr>
+                      <tr>
+                          <td>Surface location</td>
+                          <td><%= session.hebergement.SURFACEHEB%></td>
+                      </tr>
+                      <tr>
+                          <td>Internet</td>
+                          <td> <% if session.hebergement.INTERNET == 1 then %> Oui <%else%> Non <%end%> </td>
+                      </tr>
+                      <tr>
+                          <td>Secteur</td>
+                          <td> <%= session.hebergement.SECTEURHEB%> </td>
+                      </tr>
+                      <tr>
+                          <td>Orientation</td>
+                          <td> <%= session.hebergement.ORIENTATIONHEB%> </td>
+                      </tr>
+                      <tr>
+                          <td>Date Renovation</td>
+                          <td> <%= session.hebergement.ANNEEHEB%> </td>
+                      </tr>
+                      </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-md-9 panel">
+                <div class="panel-body">
+                  <form action="reserver" method="POST" class="form-horizontal"><h3>Reservation</h3>
+
+                      <div class="form-group"><label class="col-sm-3 control-label">Date Debut de reservation</label>
+
+                          <div class="col-sm-9 controls">
+                              <div class="row">
+                                  <div class="col-xs-5"><input type="text" placeholder="Date Debut" id="datepickerD"/></div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group"><label class="col-sm-3 control-label">Date Fin de reservation</label>
+
+                          <div class="col-sm-9 controls">
+                              <div class="row">
+                                  <div class="col-xs-5"><input type="text" placeholder="Date Fin" id="datepickerF"/></div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group"><label class="col-sm-3 control-label">Nombre de personnes</label>
+
+                          <div class="col-sm-9 controls">
+                              <div class="row">
+                                  <div class="col-xs-5"><input type="number" min="1" max=<%= session.hebergement.NBPLACEHEB%> placeholder="Date Fin" id="numPers"/></div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <hr/>
+                      <button type="submit" class="btn btn-green">Reserver</button>
+                  </form>
+                </div>
+              </div>
+              <div class="col-md-12">
+
+              </div>
+            </div>
+          </div>
+        </div>
+          <!--END CONTENT-->
+
+        </div>
+        <div id="footer">
+            <div class="copyright">
+                <a href="http://themifycloud.com">2015 © Dustcat</a></div>
+        </div>
+
+<script>
+$(function() {
+  $( "#datepickerD" ).datepicker({
+    beforeShowDay: function(date) {
+
+      var day = date.getDay();
+      console.log(day);
+
+      if (day == 0 )
+        return [true];
+      return [false];
+    },
+    firstDay: 1,
+    dateFormat: 'yy-mm-dd',
+    onSelect: function(selectedDate) {
+         var date = $(this).datepicker('getDate');
+         var tempStartDate = new Date(date);
+         var default_end = new Date(tempStartDate.getFullYear(), tempStartDate.getMonth(), tempStartDate.getDate()+7); //this parses date to overcome new year date weirdness
+         $('#datepickerF').datepicker('setDate', default_end); // Set as default
+         $("#datepickerF").datepicker("option","minDate", default_end);
+         }
+    });
+
+
+    $( "#datepickerF" ).datepicker({
+      beforeShowDay: function(date) {
+
+        var day = date.getDay();
+        console.log(day);
+
+        if (day == 0 )
+          return [true];
+        return [false];
+      },
+      firstDay: 1,
+      dateFormat: 'yy-mm-dd'
+      });
+  });
+
+</script>
+
+<script src="script/jquery-migrate-1.2.1.min.js"></script>
+<script src="script/jquery-ui.js"></script>
+<script src="script/bootstrap.min.js"></script>
+<script src="script/respond.min.js"></script>
+<script src="script/responsive-tabs.js"></script>
+
+</body>
+</html>
