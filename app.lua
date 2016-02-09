@@ -3,19 +3,9 @@ local http = require("lapis.nginx.http")
 local validate = require("lapis.validate")
 local app_helpers = require("lapis.application")
 local utils = require("/static/Lib/utils")
+local database = require("/static/Lib/database")
 
 local capture_errors = app_helpers.capture_errors
-
-local compte = require("/static/Lib/compte")
-local villageois = require("/static/Lib/villageois")
-local hebergement = require("/static/Lib/hebergement")
-local reservation = require("/static/Lib/reservation")
-local saison = require("/static/Lib/saison")
-local semaine = require("/static/Lib/semaine")
-local tarif = require("/static/Lib/tarif")
-local etatherbergement = require("/static/Lib/etathebergement")
-local typeherbergement = require("/static/Lib/typehebergement")
-
 local app = lapis.Application()
 
 app:enable("etlua")
@@ -31,7 +21,7 @@ app:match("about","/about", function(self)
 end)
 
 app:match("gallery","/gallery", function(self)
-	self.session.numhebergement = HEBERGEMENT:count()
+	self.session.numhebergement = getHebCount()
 	return {render = true}
 end)
 
@@ -93,7 +83,7 @@ app:post("registerExe","/registerExe", function(self)
 end)
 
 app:post("Search","/Search", function(self)
-	heb = HEBERGEMENT:select("where NOMHEB like '%"..self.req.params_post.searchInput.."%'")
+	heb = getHebSelect("where NOMHEB like '%"..self.req.params_post.searchInput.."%'")
 	print(heb.NOMHEB)
 	return { redirect_to = "index"}
 end)
@@ -129,7 +119,7 @@ app:post("addHebergementError","/addHebergement", capture_errors(function(self)
 end))
 
 app:match("hebinfo","/hebinfo",function(self)
-	self.session.hebergement = HEBERGEMENT:find(self.req.params_post.ID)
+	self.session.hebergement = getHebFind(self.req.params_post.ID)
 	return { render = true }
 end)
 -----------------------------------------------------------

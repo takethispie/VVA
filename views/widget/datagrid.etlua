@@ -40,9 +40,9 @@
                 <div class="list box text-shadow ">
                       <%
               					a = 0
-                        count = tonumber(HEBERGEMENT:count())
+                        count = tonumber(getHebCount())
               					while a < count do
-              					session.hebergement = HEBERGEMENT:find(a)
+              					session.hebergement = getHebFind(a)
               				%>
                         <div class="list-item box col-sm-11"><!--<img/>-->
                             <div class="box img left"><img src=<%= session.hebergement.PHOTOHEB%> alt="" title=""></div>
