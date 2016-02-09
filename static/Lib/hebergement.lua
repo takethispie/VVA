@@ -28,12 +28,12 @@ function getHebInPriceRange(session,param)
 end
 
 -- reserve un hebergement
-function resHeb(heb,dateDebut,dateFin)
+function resHeb(session,heb,dateDebut,dateFin)
     local booked = isBooked(heb,dateDebut,dateFin)
     -- verifier que heb ,n'est pas reservé
     if booked == 1 then
         print("rsv_saved")
-        book(heb,dateDeb,dateFin)
+        book(session,heb,dateDeb,dateFin)
         return 1
 
     elseif booked == 2 then

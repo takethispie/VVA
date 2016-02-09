@@ -3,6 +3,7 @@ local db = require("lapis.db")
 local Model = require("lapis.db.model").Model
 local utils = require("/static/Lib/utils")
 local semaine = require("/static/Lib/semaine")
+local villageois = require("/static/Lib/villageois")
 
 RESERVATION = Model:extend("RESA", {
   primary_key = {"NOHEB","DATEDEBSEM"}
@@ -22,7 +23,7 @@ function isBooked(heb,dateDeb,dateFin)
 end
 
 --need to be finished
-function book(heb,dateDeb,dateFin)
+function book(session,heb,dateDeb,dateFin)
     local price = tonumber(getTarif(dateDeb,heb))
     if price == nil then
         print("error no season")
@@ -31,5 +32,6 @@ function book(heb,dateDeb,dateFin)
         --session.hebergement.NBPLACEHEB
         local arrhes = (price/100.0)*25
         print("arrhes: "..arrhes)
+		local vill = VILLAGEOIS:find({USER = session.user.USER},"NOVILLAGEOIS")
     end
 end
