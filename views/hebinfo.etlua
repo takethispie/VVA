@@ -108,13 +108,24 @@
 $(function() {
   $( "#datepickerD" ).datepicker({
     beforeShowDay: function(date) {
+		var weekday = date.getDay();
+		var year = date.getYear();
+		var month = date.getMonth();
+		var day = date.getDate();
+		var now = new Date();
+		var nday = now.getDate();
+		var nmonth = now.getMonth();
+		var nyear = now.getYear();
+		//console.log(day);
+		console.log(nday + " " + nmonth + " " + nyear);
+		console.log(day + " " + month + " " + year);
+		
+	  	if(year < nyear || month < nmonth && year <= nyear || month == nmonth && year == nyear && day < nday)
+			return [false];
 
-      var day = date.getDay();
-      console.log(day);
-
-      if (day == 0 )
-        return [true];
-      return [false];
+      	if (weekday == 6 )
+        	return [true];
+      	return [false];
     },
     firstDay: 1,
     dateFormat: 'yy-mm-dd',
@@ -130,11 +141,22 @@ $(function() {
 
     $( "#datepickerF" ).datepicker({
       beforeShowDay: function(date) {
+		var weekday = date.getDay();
+        var year = date.getYear();
+		var month = date.getMonth();
+		var day = date.getDay();
+		var now = new Date();
+		var nday = now.getDay();
+		var nmonth = now.getMonth();
+		var nyear = now.getYear();
+		//console.log(day);
+		console.log(nday + " " + nmonth + " " + nyear);
+		console.log(day + " " + month + " " + year);
+		
+	  	if(year < nyear || month < nmonth && year < nyear || month == nmonth && year == nyear && day < nday)
+			return [false];
 
-        var day = date.getDay();
-        console.log(day);
-
-        if (day == 0 )
+        if (weekday == 6 )
           return [true];
         return [false];
       },
