@@ -49,9 +49,11 @@ function connect(session,app)
 	if session.user ~= nil then
 		if session.user.TYPECOMPTE == "ADM" then
 			session.isAdmin = true
-		end
-		if session.user.TYPECOMPTE == "AVV" then
+	
+		elseif session.user.TYPECOMPTE == "AVV" then
 			session.isAVV = true
+		else
+			session.isVIL = true
 		end
 		session.loggedIn = 1
   else
@@ -176,14 +178,28 @@ end
 --need to be finished
 function book(session,heb,dateDeb,dateFin)
     local price = tonumber(getTarif(dateDeb,heb))
+	
     if price == nil then
         print("error no season")
     else
         local resDate = getCurrentDate()
         --session.hebergement.NBPLACEHEB
-        local arrhes = (price/100.0)*25
+        local arrhes = (price/100.0)*25.0
         print("arrhes: "..arrhes)
 		local vill = VILLAGEOIS:find({USER = session.user.USER},"NOVILLAGEOIS")
+		
+		--dateDeb is nil
+		print("semaine: "..dateDeb)
+		--////////debug///////////////
+		if vill == nil then 
+			print("no vill")
+		else
+			print(vill.NOMVILLAGEOIS)
+			if getWeek(dateDeb) == nil then
+				print("week does not exists")
+			end
+ 		end
+		--///////////////////////////
     end
 end
 

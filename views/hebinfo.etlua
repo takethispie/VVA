@@ -58,13 +58,12 @@
               </div>
               <div class="col-md-9 panel">
                 <div class="panel-body">
-                  <form action="reserver" method="POST" class="form-horizontal"><h3>Reservation</h3>
-
+                  <form action="reserver" method="POST" class="form-horizontal">
+                    <h3>Reservation</h3>
                       <div class="form-group"><label class="col-sm-3 control-label">Date Debut de reservation</label>
-
                           <div class="col-sm-9 controls">
                               <div class="row">
-                                  <div class="col-xs-5"><input type="text" placeholder="Date Debut" id="datepickerD"/></div>
+                                  <div class="col-xs-5"><input type="text" placeholder="Date Debut" id="datepickerD" name="datepickerD-"/></div>
                               </div>
                           </div>
                       </div>
@@ -72,7 +71,7 @@
 
                           <div class="col-sm-9 controls">
                               <div class="row">
-                                  <div class="col-xs-5"><input type="text" placeholder="Date Fin" id="datepickerF"/></div>
+                                  <div class="col-xs-5"><input type="text" placeholder="Date Fin" id="datepickerF" name="datepickerF"/></div>
                               </div>
                           </div>
                       </div>
@@ -80,7 +79,7 @@
 
                           <div class="col-sm-9 controls">
                               <div class="row">
-                                  <div class="col-xs-5"><input type="number" min="1" max=<%= session.hebergement.NBPLACEHEB%> placeholder="Date Fin" id="numPers"/></div>
+                                  <div class="col-xs-5"><input type="number" min="1" max=<%= session.hebergement.NBPLACEHEB%> placeholder=1 id="numPers"/></div>
                               </div>
                           </div>
                       </div>
@@ -101,7 +100,7 @@
         </div>
         <div id="footer">
             <div class="copyright">
-                <a href="http://themifycloud.com">2015 © Dustcat</a></div>
+                <a>2015 © Dustcat</a>
         </div>
 
 <script>

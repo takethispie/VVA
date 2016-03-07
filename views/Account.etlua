@@ -14,7 +14,7 @@
         <% render("views.widget.profile") %>
         <div id="footer">
             <div class="copyright">
-                <a href="http://themifycloud.com">2015 © Dustcat</a></div>
+                <a>2015 © Dustcat</a>
         </div>
 <script src="script/jquery-1.10.2.min.js"></script>
 <script src="script/jquery-migrate-1.2.1.min.js"></script>
