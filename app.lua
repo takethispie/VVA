@@ -34,11 +34,6 @@ app:match("Login","/Login", function(self)
 	return {render = true}
 end)
 
-app:match("index","/index", function(self)
-	self.session.activetab = "acceuil"
-	return {render = true}
-end)
-
 app:match("Account","/Account", function(self)
 	self.session.activetab = "account"
 	return {render = true}
@@ -99,9 +94,9 @@ end)
 
 --check fields and dates to book an estate
 app:post("reserver","/reserver", function(self)
-    print("datepickerD"..self.params.datepickerD)
-    print("datepickerF"..self.params.datepickerF)
-    resHeb(self.session,self.session.hebergement,self.req.params_post.datepickerD,self.req.params_post.datepickerF)
+    print("datepickerD: "..self.params.datepickerD)
+    print("datepickerF: "..self.params.datepickerF)
+    resHeb(self.session,self.session.hebergement,self.params.datepickerD,self.params.datepickerF)
 	return { redirect_to = "index"}
 end)
 
@@ -119,6 +114,7 @@ app:post("addHebergementError","/addHebergement", capture_errors(function(self)
 end))
 
 app:match("hebinfo","/hebinfo",function(self)
+    self.session.breadTitle = "Description"
 	self.session.hebergement = getHebFind(self.req.params_post.ID)
 	return { render = true }
 end)
@@ -127,6 +123,8 @@ end)
 
 -------------------------index-----------------------------
 app:get("/", function(self)
+    self.session.activetab = "acceuil"
+    self.session.breadTitle = "Acceuil"
 	indexLoad(self.session)
 	return { render = "index", }
 end)

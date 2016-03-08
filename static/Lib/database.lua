@@ -61,34 +61,6 @@ function connect(session,app)
 	end
 end
 
-
-function indexLoad(session)
-	if not session.isAdmin then
-			session.isAdmin = false
-	end
-	if not session.loggedIn then
-		session.loggedIn = 0
-	end
-	if not session.isAVV then
-		session.isAVV = false
-	end
-
-  session.news = {"first news","second news"}
-	session.activetab = "acceuil"
-	session.numhebergement = 0
-	session.hebID = 0
-	session.hebInfo = {}
-	session.hebergement = {}
-end
-
-
-function disconnect(session)
-	session.loggedIn = 0
-	session.isAdmin = false
-	session.isAVV = false
-	session.user = nil
-end
-
 function addVillageois(user,nom,prenom,mdp,dateIns)
 	createAccount(user,nom,prenom,mdp,dateIns,"VIL")
 end
@@ -129,7 +101,7 @@ function resHeb(session,heb,dateDebut,dateFin)
     -- verifier que heb ,n'est pas reservé
     if booked == 1 then
         print("rsv_saved")
-        book(session,heb,dateDeb,dateFin)
+        book(session,heb,dateDebut,dateFin)
         return 1
 
     elseif booked == 2 then
@@ -190,16 +162,17 @@ function book(session,heb,dateDeb,dateFin)
 		
 		--dateDeb is nil
 		print("semaine: "..dateDeb)
-		--////////debug///////////////
 		if vill == nil then 
 			print("no vill")
 		else
 			print(vill.NOMVILLAGEOIS)
 			if getWeek(dateDeb) == nil then
 				print("week does not exists")
+            else
+                print("week exists")
+                RESERVATION:create({NOHEB = heb.NOHEB,DATEDEBSEM=dateDeb,NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=price,MONTANTARRHES=arrhes})
 			end
  		end
-		--///////////////////////////
     end
 end
 
@@ -213,7 +186,12 @@ end
 
 function getWeek(dateDeb)
     local week = SEMAINE:find(dateDeb)
-    return {dateDeb,week.DATEFINSEM}
+    if week == nil then
+       return nil
+    else
+        return week.DATEFINSEM
+    end
+    
 end
 
 --********************************************************************--

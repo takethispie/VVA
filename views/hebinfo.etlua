@@ -63,7 +63,7 @@
                       <div class="form-group"><label class="col-sm-3 control-label">Date Debut de reservation</label>
                           <div class="col-sm-9 controls">
                               <div class="row">
-                                  <div class="col-xs-5"><input type="text" placeholder="Date Debut" id="datepickerD" name="datepickerD-"/></div>
+                                  <div class="col-xs-5"><input type="text" placeholder="Date Debut" id="datepickerD" name="datepickerD"/></div>
                               </div>
                           </div>
                       </div>

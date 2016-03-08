@@ -26,12 +26,7 @@
                         </ul>
                     </div>
                     <div class="text-filter-box">
-                        <div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input data-path=".title" type="text" value="" placeholder="Filtrer par Titre" data-control-type="textbox" data-control-name="title-filter" data-control-action="filter" class="form-control"/></div>
-                    </div>
-                    <div class="text-filter-box">
-                        <div class="input-group">
-                          <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                          <input data-path=".desc" type="text" value="" placeholder="Filtrer par Description" data-control-type="textbox" data-control-name="desc-filter" data-control-action="filter" class="form-control"/></div>
+                        <div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input data-path=".title" type="text" value="" placeholder="Filtrer par Nom" data-control-type="textbox" data-control-name="title-filter" data-control-action="filter" class="form-control"/></div>
                     </div>
                     <div data-type="Page {current} of {pages}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
                     <div data-control-type="pagination" data-control-name="paging" data-control-action="paging" class="jplist-pagination"></div>
