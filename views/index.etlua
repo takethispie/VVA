@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <% render("views.widget.header") %>
+
+<script src="script/jquery-1.10.2.min.js"></script>
+<script src="script/jplist.min.js"></script>
+<script src="script/jplist.js"></script>
+
 <body>
     <div>
         <!--BEGIN BACK TO TOP-->
@@ -9,52 +14,38 @@
         <% render("views.widget.topbar") %>
         <% render("views.widget.breadcumb") %>
         <!--BEGIN CONTENT-->
-        <div class="index-header">
-                <div class="jumbotron">
-                  <div class="container">
-                    <h1>Locations de Vacances</h1>
-                    <p>Passez des vacances de rêve seul, entre amis ou avec votre famille grâce à Village Vacance</p>
-                  </div>
-                </div>
-
-                <div class="container">
-                  <!-- Example row of columns -->
-                  <div class="row">
-                    <div class="col-md-4 panel">
-                      <h2>Nos Locations</h2>
-                      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                      <p><a class="btn btn-green" href="gallery" role="button">View details &raquo;</a></p>
-                    </div>
-                    <div class="col-md-4 panel">
-                      <h2>Nos Engagements</h2>
-                      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                      <p><a class="btn btn-green" href="#" role="button">View details &raquo;</a></p>
-                   </div>
-                    <div class="col-md-4 panel">
-                      <h2>Nous Contacter</h2>
-                      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                      <p><a class="btn btn-green" href="#" role="button">View details &raquo;</a></p>
-                    </div>
-                  </div>
-
-                </div>
-          </div>
-                <!--END CONTENT-->
-                <!--BEGIN FOOTER-->
-                <div id="footer">
-                    <div class="copyright">
-                        <a>2015 © Dustcat</a>
-                </div>
-                <!--END FOOTER-->
-            </div>
-
-            <!--END PAGE WRAPPER-->
+        <%  if session.activetab == "acceuil" then
+                render("views.widget.home")
+            elseif session.activetab == "gallery" then
+                render("views.widget.datagrid")
+            elseif session.activetab == "account" then
+                render("views.widget.profile")
+            elseif session.activetab == "hebinfo" then
+                print("heb description")
+                render("views.widget.hebdescription")
+            end
+        %>
+        <!--END CONTENT-->
+        
+        <!--BEGIN FOOTER-->
+        <div id="footer">
+            <div class="copyright">
+                <a>2015 © Dustcat</a>
         </div>
+        <!--END FOOTER-->
     </div>
+
+        <!--END PAGE WRAPPER-->
+    </div>
+</div>
     <script src="script/jquery-1.10.2.min.js"></script>
     <script src="script/jquery-migrate-1.2.1.min.js"></script>
     <script src="script/jquery-ui.js"></script>
     <script src="script/bootstrap.min.js"></script>
+    <script src="script/respond.min.js"></script>
+    <script src="script/responsive-tabs.js"></script>
     <script src="script/zabuto_calendar.min.js"></script>
+    <script src="script/jplist.min.js"></script>
+    <script src="script/jplist.js"></script>
 </body>
 </html>

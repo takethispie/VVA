@@ -20,11 +20,13 @@ function indexLoad(session)
 		session.isAVV = false
 	end
 
-    session.activetab = "acceuil"
-    session.numhebergement = 0
-    session.hebID = 0
-    session.hebInfo = {}
-    session.hebergement = {}
+    if not session.activetab then
+			session.activetab = "acceuil"
+	end
+    --session.numhebergement = 0
+    --session.hebID = 0
+    --session.hebInfo = {}
+    --session.hebergement = {}
 end
 
 

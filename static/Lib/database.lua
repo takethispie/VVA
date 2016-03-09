@@ -81,7 +81,6 @@ function addHeb(session,param)
 	local exists = HEBERGEMENT:find({NOMHEB = param.nomHeb},"nomHeb")
 	if exists == nil then
 		-- ajout hebergement
-
 	end
 end
 
@@ -148,7 +147,7 @@ function isBooked(heb,dateDeb,dateFin)
 end
 
 --need to be finished
-function book(session,heb,dateDeb,dateFin)
+function book(session,heb,dateDeb,dateFin,nbPers)
     local price = tonumber(getTarif(dateDeb,heb))
 	
     if price == nil then
@@ -170,7 +169,8 @@ function book(session,heb,dateDeb,dateFin)
 				print("week does not exists")
             else
                 print("week exists")
-                RESERVATION:create({NOHEB = heb.NOHEB,DATEDEBSEM=dateDeb,NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=price,MONTANTARRHES=arrhes})
+                RESERVATION:create({NOHEB = heb.NOHEB,DATEDEBSEM=dateDeb,
+                NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=price,MONTANTARRHES=arrhes,NBOCCUPANT=nbPers})
 			end
  		end
     end
