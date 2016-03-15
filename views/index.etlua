@@ -8,36 +8,24 @@
 
 <body>
     <div>
-        <!--BEGIN BACK TO TOP-->
-        <a id="totop" href="#"><i class="fa fa-angle-up"></i></a>
-        <!--END BACK TO TOP-->
-        <% render("views.widget.topbar") %>
-        <% render("views.widget.breadcumb") %>
+        <% render("views.widget.topbar") 
+           render("views.widget.breadcumb") %>
         <!--BEGIN CONTENT-->
-        <%  if session.activetab == "acceuil" then
+            
+        <%  
+           if session.activetab == "acceuil" then
                 render("views.widget.home")
             elseif session.activetab == "gallery" then
                 render("views.widget.datagrid")
             elseif session.activetab == "account" then
                 render("views.widget.profile")
             elseif session.activetab == "hebinfo" then
-                print("heb description")
                 render("views.widget.hebdescription")
             end
         %>
+            
         <!--END CONTENT-->
-        
-        <!--BEGIN FOOTER-->
-        <div id="footer">
-            <div class="copyright">
-                <a>2015 © Dustcat</a>
-        </div>
-        <!--END FOOTER-->
     </div>
-
-        <!--END PAGE WRAPPER-->
-    </div>
-</div>
     <script src="script/jquery-1.10.2.min.js"></script>
     <script src="script/jquery-migrate-1.2.1.min.js"></script>
     <script src="script/jquery-ui.js"></script>

@@ -1,6 +1,7 @@
 local lapis = require("lapis")
 local db = require("lapis.db")
 local Model = require("lapis.db.model").Model
+local utils = require("/static/Lib/utils")
 
 local COMPTE = Model:extend("COMPTE", {
   primary_key = "USER"
@@ -168,9 +169,7 @@ function book(session,heb,dateDeb,dateFin,nbPers)
 			if getWeek(dateDeb) == nil then
 				print("week does not exists")
             else
-                print("week exists")
-                RESERVATION:create({NOHEB = heb.NOHEB,DATEDEBSEM=dateDeb,
-                NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=price,MONTANTARRHES=arrhes,NBOCCUPANT=nbPers})
+RESERVATION:create({NOHEB=heb.NOHEB,DATEDEBSEM=dateDeb,NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=price,MONTANTARRHES=arrhes,NBOCCUPANT=nbPers,DATERESA=getCurrentDate()})
 			end
  		end
     end

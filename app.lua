@@ -68,6 +68,7 @@ end)
 
 ---------------------------POST----------------------------
 app:post("loginExe","/loginExe", function(self)
+    self.session.activetab = "acceuil"
 	connect(self.session,self)
 	return { redirect_to = "/"}
 end)
@@ -97,6 +98,7 @@ app:post("reserver","/reserver", function(self)
     print("datepickerD: "..self.params.datepickerD)
     print("datepickerF: "..self.params.datepickerF)
     resHeb(self.session,self.session.hebergement,self.params.datepickerD,self.params.datepickerF,self.params.numPers)
+    self.session.activetab = "acceuil"
 	return { redirect_to = "/"}
 end)
 

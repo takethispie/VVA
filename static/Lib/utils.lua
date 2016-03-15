@@ -2,7 +2,7 @@ local os = require("os")
 
 function getCurrentDate()
 	local date = os.date("*t")
-	return table.concat(date)
+	return date.year.."-"..date.month.."-"..date.day
 end
 
 function getIntDate(date)

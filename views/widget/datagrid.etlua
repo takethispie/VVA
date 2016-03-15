@@ -19,10 +19,6 @@
                             <li><span data-path="default">Trier par</span></li>
                             <li><span data-path=".title" data-order="asc" data-type="text">Titre A-Z</span></li>
                             <li><span data-path=".title" data-order="desc" data-type="text">Titre Z-A</span></li>
-                            <li><span data-path=".desc" data-order="asc" data-type="text">Description A-Z</span></li>
-                            <li><span data-path=".desc" data-order="desc" data-type="text">Description Z-A</span></li>
-                            <li><span data-path=".date" data-order="asc" data-type="datetime">Date asc</span></li>
-                            <li><span data-path=".date" data-order="desc" data-type="datetime">Date desc</span></li>
                         </ul>
                     </div>
                     <div class="text-filter-box">
@@ -85,10 +81,6 @@
                             <li><span data-path="default">Trier par</span></li>
                             <li><span data-path=".title" data-order="asc" data-type="text">Titre A-Z</span></li>
                             <li><span data-path=".title" data-order="desc" data-type="text">Titre Z-A</span></li>
-                            <li><span data-path=".desc" data-order="asc" data-type="text">Description A-Z</span></li>
-                            <li><span data-path=".desc" data-order="desc" data-type="text">Description Z-A</span></li>
-                            <li><span data-path=".date" data-order="asc" data-type="datetime">Date asc</span></li>
-                            <li><span data-path=".date" data-order="desc" data-type="datetime">Date desc</span></li>
                         </ul>
                     </div>
                     <div data-type="{start} - {end} of {all}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
@@ -98,6 +90,3 @@
         </div>
     </div>
 </div>
-<script src="script/jquery-1.10.2.min.js"></script>
-<script src="script/jplist.min.js"></script>
-<script src="script/jplist.js"></script>
