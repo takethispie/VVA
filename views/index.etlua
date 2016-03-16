@@ -1,7 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
-<% render("views.widget.header") %>
-
+<head>
+    <title> Village Vacances</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/icons/favicon.ico">
+    <!--Loading bootstrap css-->
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
+    <link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.10.4.custom.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/main.css">
+    <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/jplist-custom.css">
+    <link type="text/css" rel="stylesheet" href="styles/font-awesome.min.css">
+</head>
 <script src="script/jquery-1.10.2.min.js"></script>
 <script src="script/jplist.min.js"></script>
 <script src="script/jplist.js"></script>
@@ -21,6 +34,8 @@
                 render("views.widget.profile")
             elseif session.activetab == "hebinfo" then
                 render("views.widget.hebdescription")
+            elseif session.activetab == "adminpanel" then
+                render("views.widget.adminpanel")
             end
         %>
             

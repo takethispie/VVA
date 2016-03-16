@@ -70,6 +70,18 @@ function createAccount(user,nom,prenom,mdp,dateIns,typeCompte)
 	COMPTE:create({USER=user,NOMCOMPTE=nom,PRENOMCOMPTE=prenom,MDP=mdp,DATEINSCRIP=dateIns,DATESUPPRESSION="",TYPECOMPTE=typeCompte})
 end
 
+function findAccount(v)
+    return COMPTE:find(v)
+end
+
+function countAccount()
+    return COMPTE:count()
+end
+
+function getAccounts()
+    return COMPTE:select("")
+end
+
 --********************************************************************--
 --***************************************************************************************************************************************************-
 

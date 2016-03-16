@@ -4,6 +4,7 @@ local validate = require("lapis.validate")
 local app_helpers = require("lapis.application")
 local utils = require("/static/Lib/utils")
 local database = require("/static/Lib/database")
+inspect = require("/static/Lib/inspect")
 
 local capture_errors = app_helpers.capture_errors
 local app = lapis.Application()
@@ -40,16 +41,12 @@ app:match("Account","/Account", function(self)
 end)
 
 app:match("adminPanel","/adminPanel", function(self)
-	self.session.activetab = "admin_panel"
+	self.session.activetab = "adminpanel"
 	return {redirect_to = "/"}
 end)
 
 app:match("Disconnect","/Disconnect", function(self)
 	disconnect(self.session)
-	return {redirect_to = "/"}
-end)
-
-app:match("reservation","/reservation", function(self)
 	return {redirect_to = "/"}
 end)
 
