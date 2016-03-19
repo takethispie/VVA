@@ -2,7 +2,7 @@ local os = require("os")
 
 function getCurrentDate()
 	local date = os.date("*t")
-	return table.concat(date)
+	return date.year.."-"..date.month.."-"..date.day
 end
 
 function getIntDate(date)
@@ -18,6 +18,9 @@ function indexLoad(session)
 	end
 	if not session.isAVV then
 		session.isAVV = false
+	end
+    if not session.user then
+			session.user = ""
 	end
 
     if not session.activetab then

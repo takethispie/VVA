@@ -1,6 +1,7 @@
 local lapis = require("lapis")
 local db = require("lapis.db")
 local Model = require("lapis.db.model").Model
+local utils = require("/static/Lib/utils")
 
 local COMPTE = Model:extend("COMPTE", {
   primary_key = "USER"
@@ -14,8 +15,10 @@ local HEBERGEMENT = Model:extend("HEBERGEMENT", {
   primary_key = "NOHEB"
 })
 
-local RESERVATION = Model:extend("RESA", {
-  primary_key = {"NOHEB","DATEDEBSEM"}
+RESERVATION = Model:extend("RESA", {primary_key = {"NOHEB","DATEDEBSEM"},
+    relations =  {
+        {"NOHEB",belongs_to = "HEBERGEMENT"}
+    }
 })
 
 local SAISON = Model:extend("SAISON", {
@@ -67,6 +70,18 @@ end
 
 function createAccount(user,nom,prenom,mdp,dateIns,typeCompte)
 	COMPTE:create({USER=user,NOMCOMPTE=nom,PRENOMCOMPTE=prenom,MDP=mdp,DATEINSCRIP=dateIns,DATESUPPRESSION="",TYPECOMPTE=typeCompte})
+end
+
+function findAccount(v)
+    return COMPTE:find(v)
+end
+
+function countAccount()
+    return COMPTE:count()
+end
+
+function getAccounts()
+    return COMPTE:select("")
 end
 
 --********************************************************************--
@@ -133,6 +148,7 @@ end
 
 --***************************************************************************************************************************************************-
 --**************************** reservation ****************************--
+
 -- 0 = erreur, 1 = pas reservé, 2 = reservé
 function isBooked(heb,dateDeb,dateFin)
 	local res = RESERVATION:find(heb.NOHEB,dateDeb)
@@ -168,12 +184,28 @@ function book(session,heb,dateDeb,dateFin,nbPers)
 			if getWeek(dateDeb) == nil then
 				print("week does not exists")
             else
-                print("week exists")
-                RESERVATION:create({NOHEB = heb.NOHEB,DATEDEBSEM=dateDeb,
-                NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=price,MONTANTARRHES=arrhes,NBOCCUPANT=nbPers})
+                RESERVATION:create({NOHEB=heb.NOHEB,DATEDEBSEM=dateDeb,NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=price,MONTANTARRHES=arrhes,NBOCCUPANT=nbPers,DATERESA=getCurrentDate()})
 			end
  		end
     end
+end
+
+function getReservationCount()
+    if tonumber(RESERVATION:count()) then
+        return tonumber(RESERVATION:count())
+    else
+        return 0
+    end
+end
+
+function getReservationFind(index)
+   return RESERVATION:find(index) 
+end
+
+function test()
+    Reservations = RESERVATION:select()
+    RESERVATION:preload_relation(Reservations, "NOHEB")
+    return 0
 end
 
 --********************************************************************--

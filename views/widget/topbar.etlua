@@ -7,6 +7,9 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="index">Acceuil</a></li>
                 <li><a href="gallery">Locations</a></li>
+                <% if session.user.TYPECOMPTE == "ADM" then%>
+                <li><a href="adminPanel">Admin Panel</a></li>
+                <%end%>
                 <li><a href="#">Contact</a></li>
             </ul>
             <form role="search" class="navbar-form navbar-left">

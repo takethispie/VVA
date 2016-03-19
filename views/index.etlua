@@ -1,51 +1,60 @@
 <!DOCTYPE html>
 <html lang="fr">
-<% render("views.widget.header") %>
-
-<script src="script/jquery-1.10.2.min.js"></script>
-<script src="script/jplist.min.js"></script>
-<script src="script/jplist.js"></script>
-
-<body>
-    <div>
-        <!--BEGIN BACK TO TOP-->
-        <a id="totop" href="#"><i class="fa fa-angle-up"></i></a>
-        <!--END BACK TO TOP-->
-        <% render("views.widget.topbar") %>
-        <% render("views.widget.breadcumb") %>
-        <!--BEGIN CONTENT-->
-        <%  if session.activetab == "acceuil" then
-                render("views.widget.home")
-            elseif session.activetab == "gallery" then
-                render("views.widget.datagrid")
-            elseif session.activetab == "account" then
-                render("views.widget.profile")
-            elseif session.activetab == "hebinfo" then
-                print("heb description")
-                render("views.widget.hebdescription")
-            end
-        %>
-        <!--END CONTENT-->
-        
-        <!--BEGIN FOOTER-->
-        <div id="footer">
-            <div class="copyright">
-                <a>2015 © Dustcat</a>
-        </div>
-        <!--END FOOTER-->
-    </div>
-
-        <!--END PAGE WRAPPER-->
-    </div>
-</div>
+<head>
+    <title> Village Vacances</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/icons/favicon.ico">
+    <!--Loading bootstrap css-->
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
+    <link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.10.4.custom.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap-responsive.css">
+    <link type="text/css" rel="stylesheet" href="styles/main.css">
+    <link type="text/css" rel="stylesheet" href="styles/jplist-custom.css">
+    <link type="text/css" rel="stylesheet" href="styles/font-awesome.min.css">
     <script src="script/jquery-1.10.2.min.js"></script>
     <script src="script/jquery-migrate-1.2.1.min.js"></script>
     <script src="script/jquery-ui.js"></script>
     <script src="script/bootstrap.min.js"></script>
     <script src="script/respond.min.js"></script>
     <script src="script/responsive-tabs.js"></script>
-    <script src="script/zabuto_calendar.min.js"></script>
     <script src="script/jplist.min.js"></script>
-    <script src="script/jplist.js"></script>
+    <script>
+        $('document').ready(function(){
+
+        //check all jPList javascript options
+        $('#grid-layout-div').jplist({				
+            itemsBox: '.list' 
+            ,itemPath: '.list-item' 
+            ,panelPath: '.jplist-panel'	
+        });
+        
+        });
+    </script>
+</head>
+
+<body>
+    <div>
+        <% render("views.widget.topbar") 
+           render("views.widget.breadcumb") %>
+           
+        <!--BEGIN CONTENT-->
+        <%  
+           if session.activetab == "acceuil" then
+                render("views.widget.home")
+            elseif session.activetab == "gallery" then
+                render("views.widget.datagrid")
+            elseif session.activetab == "account" then
+                render("views.widget.profile")
+            elseif session.activetab == "hebinfo" then
+                render("views.widget.hebdescription")
+            elseif session.activetab == "adminpanel" then
+                render("views.widget.adminpanel")
+            end
+        %>
+        <!--END CONTENT-->
+    </div>
 </body>
 </html>
