@@ -12,13 +12,11 @@ local ETATRESERVATION = Model:extend("ETAT_RESA", {
 })
 
 local HEBERGEMENT = Model:extend("HEBERGEMENT", {
-  primary_key = "NOHEB"
+    primary_key = "NOHEB"
 })
 
-RESERVATION = Model:extend("RESA", {primary_key = {"NOHEB","DATEDEBSEM"},
-    relations =  {
-        {"NOHEB",belongs_to = "HEBERGEMENT"}
-    }
+RESERVATION = Model:extend("RESA", {
+    primary_key = {"NOHEB","DATEDEBSEM"}
 })
 
 local SAISON = Model:extend("SAISON", {
@@ -101,7 +99,7 @@ end
 
 --retourne les hebergements qui ne sont pas reservé
 function getAvailableHeb(session,param)
-
+    --to be done
 end
 
 --retourne les hebergements dans la tranche de prix
@@ -200,12 +198,6 @@ end
 
 function getReservationFind(index)
    return RESERVATION:find(index) 
-end
-
-function test()
-    Reservations = RESERVATION:select()
-    RESERVATION:preload_relation(Reservations, "NOHEB")
-    return 0
 end
 
 --********************************************************************--

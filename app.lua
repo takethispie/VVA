@@ -1,5 +1,6 @@
 local lapis = require("lapis")
 local http = require("lapis.nginx.http")
+local db = require("lapis.db")
 local Model = require("lapis.db.model").Model
 local validate = require("lapis.validate")
 local app_helpers = require("lapis.application")
@@ -42,17 +43,15 @@ app:match("Account","/Account", function(self)
 end)
 
 app:match("adminPanel","/adminPanel", function(self)
+    self.session.reservations =  db.query("select RESA.NOHEB, HEBERGEMENT.NOMHEB, VILLAGEOIS.USER,  ETAT_RESA.NOMETATRESA, RESA.DATEDEBSEM, RESA.NOVILLAGEOIS, RESA.CODEETATRESA, RESA.DATERESA, RESA.DATEACCUSERECEPT, RESA.DATEARRHES, RESA.MONTANTARRHES, RESA.NBOCCUPANT, RESA.PRIXRESA from RESA INNER JOIN HEBERGEMENT ON RESA.NOHEB = HEBERGEMENT.NOHEB INNER JOIN VILLAGEOIS ON RESA.NOVILLAGEOIS = VILLAGEOIS.NOVILLAGEOIS INNER JOIN ETAT_RESA ON RESA.CODEETATRESA = ETAT_RESA.CODEETATRESA")
+    --debug print to see query result content
+    --print("inspect"..inspect(self.session.reservations))
 	self.session.activetab = "adminpanel"
 	return { render = "index" }
 end)
 
 app:match("Disconnect","/Disconnect", function(self)
 	disconnect(self.session)
-	return { render = "index" }
-end)
-
-app:match("adminAddMember","/adminAddMember", function(self)
-	--addVillageois("villageois","dean","dan","admin","2015-11-20")
 	return { render = "index" }
 end)
 
