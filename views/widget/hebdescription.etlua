@@ -1,0 +1,117 @@
+
+<link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
+<script type="text/javascript">
+$(function() {
+    var startDate;
+    var endDate;
+    
+    var selectCurrentWeek = function() {
+        window.setTimeout(function () {
+            $('.week-picker').find('.ui-datepicker-current-day a').addClass('ui-state-active')
+        }, 1);
+    }
+    
+    $('.week-picker').datepicker( {
+        firstDay: 6,
+        dateFormat: 'yy-mm-dd',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        onSelect: function(dateText, inst) { 
+            var date = $(this).datepicker('getDate');
+            startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
+            endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 12);
+            var dateFormat = inst.settings.dateFormat || $.datepicker._defaults.dateFormat;
+            document.getElementById('datepickerD').value = $.datepicker.formatDate( dateFormat, startDate, inst.settings );
+            document.getElementById('datepickerF').value = $.datepicker.formatDate( dateFormat, endDate, inst.settings );
+            
+            selectCurrentWeek();
+        },
+        beforeShowDay: function(date) {
+            var cssClass = '';
+            if(date >= startDate && date <= endDate)
+                cssClass = 'ui-datepicker-current-day';
+            return [true, cssClass];
+        },
+        onChangeMonthYear: function(year, month, inst) {
+            selectCurrentWeek();
+        },
+    });
+    
+    $('.week-picker .ui-datepicker-calendar tr').live('mousemove', function() { $(this).find('td a').addClass('ui-state-hover'); });
+    $('.week-picker .ui-datepicker-calendar tr').live('mouseleave', function() { $(this).find('td a').removeClass('ui-state-hover'); });
+});
+</script>
+<div class="page-content">
+    <div class="row mtl">
+        <div class="col-md-3 panel">
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="text-center mbl"><img src=<%= session.hebergement.PHOTOHEB%> alt="" class="img-responsive"/></div>
+            </div>
+            <table class="table table-striped table-hover">
+                <tbody>
+                <tr>
+                    <td>Nombre de places</td>
+                    <td><%= session.hebergement.NBPLACEHEB%></td>
+                </tr>
+                <tr>
+                    <td>Surface location</td>
+                    <td><%= session.hebergement.SURFACEHEB%></td>
+                </tr>
+                <tr>
+                    <td>Internet</td>
+                    <td> <% if session.hebergement.INTERNET == 1 then %> Oui <%else%> Non <%end%> </td>
+                </tr>
+                <tr>
+                    <td>Secteur</td>
+                    <td> <%= session.hebergement.SECTEURHEB%> </td>
+                </tr>
+                <tr>
+                    <td>Orientation</td>
+                    <td> <%= session.hebergement.ORIENTATIONHEB%> </td>
+                </tr>
+                <tr>
+                    <td>Date Renovation</td>
+                    <td> <%= session.hebergement.ANNEEHEB%> </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        <div class="col-md-5 panel">
+        <div class="panel-body">
+            <form action="reserver" method="POST" class="form-horizontal">
+            <h3>Reservation</h3>
+                <hr/>
+                <div class="form-group"><label class="col-sm-3 control-label">Semaine de Reservation</label>
+                    <div class="col-sm-9 controls">
+                        <div class="row">
+                            <div class="week-picker"></div>
+                            <br></br>
+                            <div class="col-xs-5"><input type="text" readonly placeholder="Date Debut" id="datepickerD" name="datepickerD"/><input type="text" readonly placeholder="Date Debut" id="datepickerF" name="datepickerF"/></div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="form-group"><label class="col-sm-3 control-label">Nombre de personnes</label>
+
+                    <div class="col-sm-9 controls">
+                        <div class="row">
+                            <div class="col-xs-5"><input type="number" min="1" value="1" max=<%= session.hebergement.NBPLACEHEB%> placeholder=1 id="numPers"/></div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr/>
+                <button type="submit" class="btn btn-green">Reserver</button>
+            </form>
+        </div>
+        </div>
+        <div class="col-md-12">
+
+        </div>
+    </div>
+    </div>
+</div>
+
+</script>

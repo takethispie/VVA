@@ -42,21 +42,21 @@ app:match("Account","/Account", function(self)
 	return { render = "index" }
 end)
 
-app:match("adminPanel","/adminPanel", function(self)
+app:match("adminResaList","/adminResaList", function(self)
     self.session.reservations =  db.query("select RESA.NOHEB, HEBERGEMENT.NOMHEB, VILLAGEOIS.USER,  ETAT_RESA.NOMETATRESA, RESA.DATEDEBSEM, RESA.NOVILLAGEOIS, RESA.CODEETATRESA, RESA.DATERESA, RESA.DATEACCUSERECEPT, RESA.DATEARRHES, RESA.MONTANTARRHES, RESA.NBOCCUPANT, RESA.PRIXRESA from RESA INNER JOIN HEBERGEMENT ON RESA.NOHEB = HEBERGEMENT.NOHEB INNER JOIN VILLAGEOIS ON RESA.NOVILLAGEOIS = VILLAGEOIS.NOVILLAGEOIS INNER JOIN ETAT_RESA ON RESA.CODEETATRESA = ETAT_RESA.CODEETATRESA")
     --debug print to see query result content
     --print("inspect"..inspect(self.session.reservations))
-	self.session.activetab = "adminpanel"
+	self.session.activetab = "adminResaList"
+	return { render = "index" }
+end)
+
+app:match("adminUserList","/adminUserList", function(self)
+	self.session.activetab = "adminUserList"
 	return { render = "index" }
 end)
 
 app:match("Disconnect","/Disconnect", function(self)
 	disconnect(self.session)
-	return { render = "index" }
-end)
-
-app:match("avvPanel","/avvPanel", function(self)
-	self.session.activetab = "avv_panel"
 	return { render = "index" }
 end)
 
@@ -92,8 +92,6 @@ end)
 
 --check fields and dates to book an estate
 app:post("reserver","/reserver", function(self)
-    print("datepickerD: "..self.params.datepickerD)
-    print("datepickerF: "..self.params.datepickerF)
     resHeb(self.session,self.session.hebergement,self.params.datepickerD,self.params.datepickerF,self.params.numPers)
     self.session.activetab = "acceuil"
 	return { render = "index" }

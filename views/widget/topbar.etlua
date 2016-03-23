@@ -7,16 +7,18 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="index">Acceuil</a></li>
                 <li><a href="gallery">Locations</a></li>
-                <% if session.user.TYPECOMPTE == "ADM" then%>
-                <li><a href="adminPanel">Administration</a></li>
-                <%end%>
                 <li><a href="#">Contact</a></li>
-            </ul>
-            <form role="search" class="navbar-form navbar-left">
+                 <form role="search" class="navbar-form navbar-left">
                 <div class="form-group"><input type="text" placeholder="" class="form-control"/></div>
                 &nbsp;
                 <button type="submit" class="btn btn-green">Rechercher</button>
-            </form>
+                </form>
+                <% if session.user.TYPECOMPTE == "AVV" then%>
+                <li><a href="adminUserList">Utilisateurs</a></li>
+                <li><a href="adminResaList">Reservations</a></li>
+                <%end%>
+            </ul>
+           
             <ul class="nav navbar-nav navbar-right">
                 <%if session.loggedIn == 0 then %>
                 <li><a href="Login">Se connecter</a></li>
@@ -25,11 +27,6 @@
                     <ul class="dropdown-menu">
                         <li><a href="Account">Mon compte</a></li>
                         <li><a href="#">Mes Réservations</a></li>
-                <% if session.user.TYPECOMPTE == "AVV" then %>
-                        <li><a href="avvPanel">Gestionnaire AVV</a></li>
-                <%elseif session.user.TYPECOMPTE == "ADM" then %>
-                        <li><a href="adminPanel">Administration</a></li>
-                <% end %>
                         <li class="divider"></li>
                         <li><a href="Disconnect">Se Déconnecter</a></li>
                     </ul>
@@ -39,3 +36,10 @@
         </div>
     </div>
 </nav>
+<div class="page-title-breadcrumb">
+    <div class="page-header pull-left">
+        <div class="page-title"> <%= session.breadTitle %> </div>
+    </div>
+    <div class="clearfix">
+    </div>
+</div>

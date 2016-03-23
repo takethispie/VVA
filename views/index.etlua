@@ -23,26 +23,23 @@
     <script src="script/jplist.min.js"></script>
     <script>
         $('document').ready(function(){
-
-        //check all jPList javascript options
-        $('#grid-layout-div').jplist({				
-            itemsBox: '.list' 
-            ,itemPath: '.list-item' 
-            ,panelPath: '.jplist-panel'	
-        });
-        
+            //check all jPList javascript options
+            $('#grid-layout-div').jplist({				
+                itemsBox: '.list' 
+                ,itemPath: '.list-item' 
+                ,panelPath: '.jplist-panel'	
+            });
         });
     </script>
 </head>
 
 <body>
     <div>
-        <% render("views.widget.topbar") 
-           render("views.widget.breadcumb") %>
+        <% 
+            render("views.widget.topbar")  
            
-        <!--BEGIN CONTENT-->
-        <%  
-           if session.activetab == "acceuil" then
+            --begin content
+            if session.activetab == "acceuil" then
                 render("views.widget.home")
             elseif session.activetab == "gallery" then
                 render("views.widget.datagrid")
@@ -50,11 +47,13 @@
                 render("views.widget.profile")
             elseif session.activetab == "hebinfo" then
                 render("views.widget.hebdescription")
-            elseif session.activetab == "adminpanel" then
-                render("views.widget.adminpanel")
+            elseif session.activetab == "adminUserList" then
+                render("views.widget.adminUserList")
+            elseif session.activetab == "adminResaList" then
+                render("views.widget.adminResaList")
             end
+            --end content
         %>
-        <!--END CONTENT-->
     </div>
 </body>
 </html>
