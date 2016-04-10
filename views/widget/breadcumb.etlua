@@ -1,7 +1,0 @@
-<div class="page-title-breadcrumb">
-    <div class="page-header pull-left">
-        <div class="page-title"> <%= session.breadTitle %> </div>
-    </div>
-    <div class="clearfix">
-    </div>
-</div>

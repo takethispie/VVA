@@ -10,23 +10,35 @@
     <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
     <link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.10.4.custom.min.css">
     <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap-responsive.css">
     <link type="text/css" rel="stylesheet" href="styles/main.css">
-    <link type="text/css" rel="stylesheet" href="styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="styles/jplist-custom.css">
     <link type="text/css" rel="stylesheet" href="styles/font-awesome.min.css">
+    <script src="script/jquery-1.10.2.min.js"></script>
+    <script src="script/jquery-migrate-1.2.1.min.js"></script>
+    <script src="script/jquery-ui.js"></script>
+    <script src="script/bootstrap.min.js"></script>
+    <script src="script/respond.min.js"></script>
+    <script src="script/responsive-tabs.js"></script>
+    <script src="script/jplist.min.js"></script>
+    <script>
+        $('document').ready(function(){
+            //check all jPList javascript options
+            $('#grid-layout-div').jplist({				
+                itemsBox: '.list' 
+                ,itemPath: '.list-item' 
+                ,panelPath: '.jplist-panel'	
+            });
+        });
+    </script>
 </head>
-<script src="script/jquery-1.10.2.min.js"></script>
-<script src="script/jplist.min.js"></script>
-<script src="script/jplist.js"></script>
 
 <body>
-    <div>
-        <% render("views.widget.topbar") 
-           render("views.widget.breadcumb") %>
-        <!--BEGIN CONTENT-->
-            
-        <%  
-           if session.activetab == "acceuil" then
+        <% render("views.widget.topbar") %>
+        <div class="container">
+        <%
+            --begin content
+            if session.activetab == "acceuil" then
                 render("views.widget.home")
             elseif session.activetab == "gallery" then
                 render("views.widget.datagrid")
@@ -34,21 +46,15 @@
                 render("views.widget.profile")
             elseif session.activetab == "hebinfo" then
                 render("views.widget.hebdescription")
-            elseif session.activetab == "adminpanel" then
-                render("views.widget.adminpanel")
+            elseif session.activetab == "gestUserList" then
+                render("views.widget.gestUserList")
+            elseif session.activetab == "gestResaList" then
+                render("views.widget.gestResaList")
+            elseif session.activetab == "login" then
+                render("views.widget.loginform")
             end
+            --end content
         %>
-            
-        <!--END CONTENT-->
-    </div>
-    <script src="script/jquery-1.10.2.min.js"></script>
-    <script src="script/jquery-migrate-1.2.1.min.js"></script>
-    <script src="script/jquery-ui.js"></script>
-    <script src="script/bootstrap.min.js"></script>
-    <script src="script/respond.min.js"></script>
-    <script src="script/responsive-tabs.js"></script>
-    <script src="script/zabuto_calendar.min.js"></script>
-    <script src="script/jplist.min.js"></script>
-    <script src="script/jplist.js"></script>
+        </div>
 </body>
 </html>

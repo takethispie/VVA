@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-lg-12 panel">
+        <div class="panel-body">
+            <div class="col-lg-12">
+                <div id="grid-layout-div" class="box jplist">
+                    <% render("views.widget.jplistHeader") %>
+                    <div class="list box text-shadow ">
+                            <%
+                                a = 1
+
+                                count = getReservationCount()
+                                while a <= count do
+                                    local temp = session.reservations[a]
+                            %>
+                            <div class="list-item box col-sm-11">
+                                <div class="col-sm-2">
+                                    <p class="nores"><%= temp.NOMHEB%></p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="nores"><%= temp.DATEDEBSEM%></p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="nores"><%= temp.USER%></p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="nores"><%= temp.NOMETATRESA%></p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="nores"><%= temp.DATERESA%></p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="nores"><%= temp.DATEACCUSERECEPT%></p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="nores"><%= temp.DATEARRHES%></p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="nores"><%= temp.MONTANTARRHES%></p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="nores"><%= temp.NBOCCUPANT%></p>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="nores"><%= temp.PRIXRESA%></p>
+                                </div>
+                            </div>
+                            <%a = a + 1 end%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

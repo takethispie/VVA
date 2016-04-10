@@ -1,0 +1,26 @@
+<div class="jplist-ios-button"><i class="fa fa-sort"></i>jPList Actions</div>
+<div class="jplist-panel box panel-top col-sm-15">
+    <button type="button" data-control-type="reset" data-control-name="reset" data-control-action="reset" class="jplist-reset-btn btn btn-default">Reset<i class="fa fa-share mls"></i></button>
+    <div data-control-type="drop-down" data-control-name="paging" data-control-action="paging" class="jplist-drop-down form-control">
+        <ul class="dropdown-menu">
+            <li><span data-number="3">Afficher 3 par page</span></li>
+            <li><span data-number="5">Afficher 5 par page</span></li>
+            <li><span data-number="10" data-default="true">Afficher 10 par page</span></li>
+            <li><span data-number="all"> Tout voir</span></li>
+        </ul>
+    </div>
+    <div data-control-type="drop-down" data-control-name="sort" data-control-action="sort" data-datetime-format="{month}/{day}/{year}" class="jplist-drop-down form-control">
+        <ul class="dropdown-menu">
+            <li><span data-path="default">Trier par: Défaut</span></li>
+            <li><span data-path=".title" data-order="asc" data-type="text">Trier par: Titre A-Z</span></li>
+            <li><span data-path=".title" data-order="desc" data-type="text">Trier par: Titre Z-A</span></li>
+        </ul>
+    </div>
+    <div class="text-filter-box">
+        <div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input data-path=".title" type="text" placeholder="Filtrer par Nom" data-control-type="textbox" data-control-name="title-filter" data-control-action="filter" class="form-control"/></div>
+    </div>
+    <div data-type="Page {current} of {pages}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
+    <div data-control-type="pagination" data-control-name="paging" data-control-action="paging" class="jplist-pagination"></div>
+</div>
+<br>
+<div class="box jplist-no-results text-shadow align-center"><p>Aucun Resultat</p></div>

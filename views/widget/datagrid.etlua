@@ -1,33 +1,8 @@
 <div class="row">
-<div class="col-lg-12">
-    <div class="panel">
+    <div class="col-lg-15 panel">
         <div class="panel-body">
             <div id="grid-layout-div" class="box jplist">
-                <div class="jplist-ios-button"><i class="fa fa-sort"></i>jPList Actions</div>
-                <div class="jplist-panel box panel-top col-sm-12">
-                    <button type="button" data-control-type="reset" data-control-name="reset" data-control-action="reset" class="jplist-reset-btn btn btn-default">Reset<i class="fa fa-share mls"></i></button>
-                    <div data-control-type="drop-down" data-control-name="paging" data-control-action="paging" class="jplist-drop-down form-control">
-                        <ul class="dropdown-menu">
-                            <li><span data-number="3"> 3 par page</span></li>
-                            <li><span data-number="5"> 5 par page</span></li>
-                            <li><span data-number="10" data-default="true"> 10 par page</span></li>
-                            <li><span data-number="all"> Tout voir</span></li>
-                        </ul>
-                    </div>
-                    <div data-control-type="drop-down" data-control-name="sort" data-control-action="sort" data-datetime-format="{month}/{day}/{year}" class="jplist-drop-down form-control">
-                        <ul class="dropdown-menu">
-                            <li><span data-path="default">Trier par</span></li>
-                            <li><span data-path=".title" data-order="asc" data-type="text">Titre A-Z</span></li>
-                            <li><span data-path=".title" data-order="desc" data-type="text">Titre Z-A</span></li>
-                        </ul>
-                    </div>
-                    <div class="text-filter-box">
-                        <div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input data-path=".title" type="text" value="" placeholder="Filtrer par Nom" data-control-type="textbox" data-control-name="title-filter" data-control-action="filter" class="form-control"/></div>
-                    </div>
-                    <div data-type="Page {current} of {pages}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
-                    <div data-control-type="pagination" data-control-name="paging" data-control-action="paging" class="jplist-pagination"></div>
-                </div>
-
+                <% render("views.widget.jplistHeader") %>
                 <div class="list box text-shadow ">
                         <%
                             a = 0
@@ -65,28 +40,14 @@
                         </div>
                         <% a = a + 1 end %>
                 </div>
-                <div class="box jplist-no-results text-shadow align-center"><p>Aucun Resultat</p></div>
-                <div class="jplist-ios-button"><i class="fa fa-sort"></i>jPList Actions</div>
-                <div class="jplist-panel box panel-bottom">
-                    <div data-control-type="drop-down" data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true" class="jplist-drop-down form-control">
-                        <ul class="dropdown-menu">
-                            <li><span data-number="3"> 3 par page</span></li>
-                            <li><span data-number="5"> 5 par page</span></li>
-                            <li><span data-number="10" data-default="true"> 10 par page</span></li>
-                            <li><span data-number="all"> Tout voir</span></li>
-                        </ul>
-                    </div>
-                    <div data-control-type="drop-down" data-control-name="sort" data-control-action="sort" data-control-animate-to-top="true" data-datetime-format="{month}/{day}/{year}" class="jplist-drop-down form-control">
-                        <ul class="dropdown-menu">
-                            <li><span data-path="default">Trier par</span></li>
-                            <li><span data-path=".title" data-order="asc" data-type="text">Titre A-Z</span></li>
-                            <li><span data-path=".title" data-order="desc" data-type="text">Titre Z-A</span></li>
-                        </ul>
-                    </div>
-                    <div data-type="{start} - {end} of {all}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
-                    <div data-control-type="pagination" data-control-name="paging" data-control-action="paging" data-control-animate-to-top="true" class="jplist-pagination"></div>
-                </div>
             </div>
         </div>
     </div>
+    <% if session.user ~= nil then 
+        if session.user.TYPECOMPTE == "AVV" then 
+            render("views.widget.addHebFormWidget") 
+        end
+       end
+    %>
 </div>
+

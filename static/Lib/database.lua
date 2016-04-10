@@ -12,11 +12,11 @@ local ETATRESERVATION = Model:extend("ETAT_RESA", {
 })
 
 local HEBERGEMENT = Model:extend("HEBERGEMENT", {
-  primary_key = "NOHEB"
+    primary_key = "NOHEB"
 })
 
-local RESERVATION = Model:extend("RESA", {
-  primary_key = {"NOHEB","DATEDEBSEM"}
+RESERVATION = Model:extend("RESA", {
+    primary_key = {"NOHEB","DATEDEBSEM"}
 })
 
 local SAISON = Model:extend("SAISON", {
@@ -39,8 +39,6 @@ local VILLAGEOIS = Model:extend("VILLAGEOIS", {
   primary_key = "NOVILLAGEOIS"
 })
 
-
-
 --***************************************************************************************************************************************************-
 --****************************** COMPTE ******************************--
 --used for login
@@ -50,15 +48,20 @@ function connect(session,app)
 	if session.user ~= nil then
 		if session.user.TYPECOMPTE == "ADM" then
 			session.isAdmin = true
-	
+            session.loggedIn = 1
 		elseif session.user.TYPECOMPTE == "AVV" then
 			session.isAVV = true
-		else
+            session.loggedIn = 1
+		elseif session.user.typeCompte == "VIL" then
 			session.isVIL = true
-		end
-		session.loggedIn = 1
-  else
-    session.loggedIn = 0
+            session.loggedIn = 1
+        else
+            session.loggedIn = 0
+            print("wrong password if")
+		end		
+    else
+        session.loggedIn = 0
+        print("wrong password")
 	end
 end
 
@@ -91,15 +94,17 @@ end
 --**************************** hebergement ****************************--
 
 function addHeb(session,param)
-	local exists = HEBERGEMENT:find({NOMHEB = param.nomHeb},"nomHeb")
+	local exists = HEBERGEMENT:find({NOMHEB = param.nomheb})
 	if exists == nil then
-		-- ajout hebergement
+        print("hebergement added")
+		HEBERGEMENT:create({NOHEB=HEBERGEMENT:count(),CODETYPEHEB="0", NOMHEB = param.nomHeb, NBPLACEHEB = param.nbplace, SURFACEHEB = param.surface, INTERNET="1", ANNEEHEB = param.anneeheb, SECTEURHEB = param.sectheb, ORIENTATIONHEB = param.orientheb, ETATHEB = "Libre", DESCRIHEB = param.description})
 	end
+    print("sorry can't do")
 end
 
 --retourne les hebergements qui ne sont pas reservé
 function getAvailableHeb(session,param)
-
+    --to be done
 end
 
 --retourne les hebergements dans la tranche de prix
@@ -146,6 +151,7 @@ end
 
 --***************************************************************************************************************************************************-
 --**************************** reservation ****************************--
+
 -- 0 = erreur, 1 = pas reservé, 2 = reservé
 function isBooked(heb,dateDeb,dateFin)
 	local res = RESERVATION:find(heb.NOHEB,dateDeb)
@@ -181,10 +187,22 @@ function book(session,heb,dateDeb,dateFin,nbPers)
 			if getWeek(dateDeb) == nil then
 				print("week does not exists")
             else
-RESERVATION:create({NOHEB=heb.NOHEB,DATEDEBSEM=dateDeb,NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=price,MONTANTARRHES=arrhes,NBOCCUPANT=nbPers,DATERESA=getCurrentDate()})
+                RESERVATION:create({NOHEB=heb.NOHEB,DATEDEBSEM=dateDeb,NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=price,MONTANTARRHES=arrhes,NBOCCUPANT=nbPers,DATERESA=getCurrentDate()})
 			end
  		end
     end
+end
+
+function getReservationCount()
+    if tonumber(RESERVATION:count()) then
+        return tonumber(RESERVATION:count())
+    else
+        return 0
+    end
+end
+
+function getReservationFind(index)
+   return RESERVATION:find(index) 
 end
 
 --********************************************************************--
