@@ -16,10 +16,6 @@ app.layout = false
 
 -----------------------routes----------------------------
 
-app:before_filter(function(self)
-  print(self.session.loggedIn)
-end)
-
 app:match("about","/about", function(self)
     self.session.activetab = "about"
 	return {redirect_to = "index"}
@@ -63,6 +59,11 @@ app:match("gestUserList","/gestUserList", function(self)
 	return { render = "index" }
 end)
 
+app:match("/filter-week", function(self)
+	print(self.req.params_post.sem)
+	return { render = "index" }
+end)
+
 app:match("Disconnect","/Disconnect", function(self)
     self.session.activetab = "acceuil"
 	disconnect(self.session)
@@ -84,6 +85,11 @@ end)
 
 app:post("registerExe","/registerExe", function(self)
 	self.session.loggedIn = 1
+	return {  render = "index" }
+end)
+
+app:post("modifHeb","/modifHeb", function(self)
+	self.session.activetab = "modifHeb"
 	return {  render = "index" }
 end)
 
@@ -138,7 +144,7 @@ app:match("index","/index", function(self)
 end)
 
 app:get("/", function(self)
-    print(inspect(session))
+    self.session.activetab = "acceuil"
     self.session.breadTitle = "Acceuil"
 	return { render = "index"}
 end)

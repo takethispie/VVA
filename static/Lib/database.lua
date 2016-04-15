@@ -220,7 +220,14 @@ function getWeek(dateDeb)
     else
         return week.DATEFINSEM
     end
-    
+end
+
+function getAllWeeks()
+    return SEMAINE:select()
+end
+
+function getWeekCount()
+    return SEMAINE:count()
 end
 
 --********************************************************************--

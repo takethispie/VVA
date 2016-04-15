@@ -2,7 +2,30 @@
     <div class="col-lg-15 panel">
         <div class="panel-body">
             <div id="grid-layout-div" class="box jplist">
-                <% render("views.widget.jplistHeader") %>
+                <div class="jplist-ios-button"><i class="fa fa-sort"></i>jPList Actions</div>
+                <div class="jplist-panel box panel-top col-sm-12">
+                    <button type="button" data-control-type="reset" data-control-name="reset" data-control-action="reset" class="jplist-reset-btn btn btn-default">Reset<i class="fa fa-share mls"></i></button>
+                    <div data-control-type="drop-down" data-control-name="paging" data-control-action="paging" class="jplist-drop-down form-control">
+                        <ul class="dropdown-menu">
+                            <li><span data-number="3">Afficher 3 par page</span></li>
+                            <li><span data-number="5">Afficher 5 par page</span></li>
+                            <li><span data-number="10" data-default="true">Afficher 10 par page</span></li>
+                            <li><span data-number="all"> Tout voir</span></li>
+                        </ul>
+                    </div>
+                    <div data-control-type="drop-down" data-control-name="sort" data-control-action="sort" data-datetime-format="{month}/{day}/{year}" class="jplist-drop-down form-control">
+                        <ul class="dropdown-menu">
+                            <li><span data-path="default">Trier par: Défaut</span></li>
+                            <li><span data-path=".title" data-order="asc" data-type="text">Trier par: Titre A-Z</span></li>
+                            <li><span data-path=".title" data-order="desc" data-type="text">Trier par: Titre Z-A</span></li>
+                        </ul>
+                    </div>
+                    <div class="text-filter-box">
+                        <div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input data-path=".title" type="text" placeholder="Filtrer par Nom" data-control-type="textbox" data-control-name="title-filter" data-control-action="filter" class="form-control"/></div>
+                    </div>
+                    <div data-type="Page {current} of {pages}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
+                    <div data-control-type="pagination" data-control-name="paging" data-control-action="paging" class="jplist-pagination"></div>
+                </div>
                 <div class="list box text-shadow ">
                         <%
                             a = 0
@@ -10,7 +33,7 @@
                             while a < count do
                             session.hebergement = getHebFind(a)
                         %>
-                        <div class="list-item box col-sm-11"><!--<img/>-->
+                        <div class="list-item box col-lg-12"><!--<img/>-->
                             <div class="box img left"><img src=<%= session.hebergement.PHOTOHEB%> alt="" title=""></div>
                             <!--<data></data>-->
                             <div class="box block right">
@@ -28,14 +51,20 @@
                                 if session.user.TYPECOMPTE == "VIL" or session.user.TYPECOMPTE == "ADM" or session.user.TYPECOMPTE == "AVV" then %>
                                 <form action="hebinfo" method="post">
                                   <input name="ID" type="hidden" value=<%= a%> >
-                                  <input class="btn btn-green btn-datagrid" type="submit" value="Consulter">
+                                  <input class="btn btn-green btn-datagrid col-sm-1" style="margin-left:5px;" type="submit" value="Consulter">
                                 </form>
                                 <% else %>
                                 <!-- actually not working -->
                                 <div class="col-sm-2">
                                   <p>Veuillez vous connecter</p>
                                 </div>
-                                <% end end%>
+                                <% end 
+                                if session.user.TYPECOMPTE == "AVV" then %>
+                                    <form action="modifHeb" method="post">
+                                        <input name="ID" type="hidden" value=<%= a%> >
+                                        <input class="btn btn-green btn-datagrid col-sm-1" type="submit" value="Modifier">
+                                    </form>
+                                <%end end%>
                             </div>
                         </div>
                         <% a = a + 1 end %>
@@ -50,4 +79,5 @@
        end
     %>
 </div>
+
 

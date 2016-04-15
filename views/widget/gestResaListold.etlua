@@ -1,0 +1,86 @@
+<div class="row">
+    <div class="panel">
+        <div class="panel-body">
+            <div id="grid-layout-div" class="box jplist">
+                <div class="jplist-ios-button"><i class="fa fa-sort"></i>jPList Actions</div>
+                <div class="jplist-panel box panel-top col-sm-15">
+                    <button type="button" data-control-type="reset" data-control-name="reset" data-control-action="reset" class="jplist-reset-btn btn btn-default">Reset<i class="fa fa-share mls"></i></button>
+                    <div data-control-type="drop-down" data-control-name="paging" data-control-action="paging" class="jplist-drop-down form-control">
+                        <ul class="dropdown-menu">
+                            <li><span data-number="3">Afficher 3 par page</span></li>
+                            <li><span data-number="5">Afficher 5 par page</span></li>
+                            <li><span data-number="10" data-default="true">Afficher 10 par page</span></li>
+                            <li><span data-number="all"> Tout voir</span></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown pull-left" data-control-type="boot-filter-drop-down" data-control-name="category-filter" data-control-action="filter">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="dropdown-menu-1" aria-expanded="true">					
+                            <span data-type="selected-text">filtrer par semaine</span>
+                            <span class="caret"></span>						
+                        </button>
+
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-menu-1">
+                            <%
+                                i = 1
+                                wcount = tonumber(getWeekCount())
+                                local weeks = getAllWeeks()
+                                while i <= wcount do
+                                    local currentWeek = weeks[i]
+                            %>
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#" data-path="<%= '.'..currentWeek.DATEDEBSEM%>" data-jplist-selected=<% if i == 1 then%>"true"<%else%>"false"<%end%>> <%=currentWeek.DATEDEBSEM%> </a>
+                            </li>
+                            <% i = i + 1 end%>
+                        </ul>						  
+                    </div>
+
+                    <div data-type="Page {current} of {pages}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
+                    <div data-control-type="pagination" data-control-name="paging" data-control-action="paging" class="jplist-pagination"></div>
+                </div>
+                <div class="list box text-shadow">
+                        <%
+                            a = 1
+                            count = getReservationCount()
+                            while a <= count do
+                                local temp = session.reservations[a]
+                        %>
+                        <div class="list-item box col-sm-12">
+                            <div class="col-sm-2 text-center">
+                                <p class="nores"><%= temp.NOMHEB%></p>
+                            </div>
+                            <div class="col-sm-1 box">
+                                <p class="<%=temp.DATEDEBSEM%>"><%= temp.DATEDEBSEM%></p>
+                            </div>
+                            <div class="col-sm-2 text-center">
+                                <p class="user"><%= temp.USER%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="nometatresa"><%= temp.NOMETATRESA%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="dateresa"><%= temp.DATERESA%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="dateaccuserecept"><%= temp.DATEACCUSERECEPT%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="datearrhes"><%= temp.DATEARRHES%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="montantarrhes"><%= temp.MONTANTARRHES%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="nboccupant"><%= temp.NBOCCUPANT%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="prix"><%= temp.PRIXRESA%></p>
+                            </div>
+                        </div>
+                        <%a = a + 1 end%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <script src="script/jplist.core.min.js"></script>
+    <script src="script/jplist.bootstrap-filter-dropdown.min.js"></script>

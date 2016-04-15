@@ -21,21 +21,28 @@
     <script src="script/respond.min.js"></script>
     <script src="script/responsive-tabs.js"></script>
     <script src="script/jplist.min.js"></script>
+    
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid-theme.min.css" />
+    <script src="script/jsgrid.min.js"></script>
+   
+
+    
     <script>
-        $('document').ready(function(){
-            //check all jPList javascript options
-            $('#grid-layout-div').jplist({				
-                itemsBox: '.list' 
-                ,itemPath: '.list-item' 
-                ,panelPath: '.jplist-panel'	
-            });
+    $('document').ready(function(){
+        //check all jPList javascript options
+        $('#grid-layout-div').jplist({				
+        itemsBox: '.list' 
+        ,itemPath: '.list-item' 
+        ,panelPath: '.jplist-panel'	
         });
+    });
     </script>
 </head>
 
 <body>
         <% render("views.widget.topbar") %>
-        <div class="container">
+        <div style="width:100%; padding-left:50px; padding-right:50px;padding-top:15px;">
         <%
             --begin content
             if session.activetab == "acceuil" then
