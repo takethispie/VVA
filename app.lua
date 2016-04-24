@@ -4,6 +4,7 @@ local db = require("lapis.db")
 local Model = require("lapis.db.model").Model
 local validate = require("lapis.validate")
 local app_helpers = require("lapis.application")
+local util = require("lapis.util")
 local utils = require("/static/Lib/utils")
 database = require("/static/Lib/database")
 inspect = require("/static/Lib/inspect")
@@ -16,11 +17,6 @@ app.layout = false
 
 -----------------------routes----------------------------
 
-app:match("about","/about", function(self)
-    self.session.activetab = "about"
-	return {redirect_to = "index"}
-end)
-
 app:match("gallery","/gallery", function(self)
 	self.session.numhebergement = getHebCount()
     self.session.activetab = "gallery"
@@ -29,6 +25,7 @@ end)
 
 app:match("contact","/contact", function(self)
 	self.session.activetab = "contact"
+    self.session.breadTitle = "Contact"
 	return { render = "index" }
 end)
 
@@ -38,7 +35,7 @@ app:match("Login","/Login", function(self)
 end)
 
 app:match("Account","/Account", function(self)
-    if self.session.user ~= nil then 
+    if self.session.user ~= nil then
         self.session.activetab = "account"
         self.session.breadTitle = "Account"
     else
@@ -74,6 +71,12 @@ end)
 
 
 ---------------------------POST----------------------------
+
+app:post("ajax-test","/ajax-test", function(self)
+    print(inspect(self.req.params_post))
+	return "hi "..self.req.params_post.alex
+end)
+
 app:post("loginExe","/loginExe", function(self)
     self.session.activetab = "acceuil"
 	connect(self.session,self)
@@ -132,10 +135,17 @@ app:match("hebinfo","/hebinfo",function(self)
 	self.session.hebergement = getHebFind(self.req.params_post.ID)
 	return { render = "index" }
 end)
+
+app:post("edit-resa","/edit-resa", function(self)
+	self.session.activetab = "edit-resa"
+    self.session.breadTitle = "Modifier réservation"
+	return {  render = "index" }
+end)
 -----------------------------------------------------------
 
 
 -------------------------index-----------------------------
+--duplicate the latter will need to be removed
 app:match("index","/index", function(self)
     self.session.activetab = "acceuil"
     self.session.breadTitle = "Acceuil"
@@ -146,6 +156,7 @@ end)
 app:get("/", function(self)
     self.session.activetab = "acceuil"
     self.session.breadTitle = "Acceuil"
+    indexLoad(self.session)
 	return { render = "index"}
 end)
 -----------------------------------------------------------

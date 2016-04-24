@@ -1,83 +1,88 @@
 <div class="row">
     <div class="panel">
         <div class="panel-body">
-            <div id="jsGrid" class="jsgrid" style="position: relative; height: 90%; width: 100%;">
-                <div class="jsgrid-grid-header jsgrid-header-scrollbar">
-                    <table class="jsgrid-table">
-                        <tbody>
-                            <tr class="jsgrid-header-row">
-                                <th class="jsgrid-header-sortable" style="width: 150px;">Name</th>
-                                <th class="jsgrid-align-right jsgrid-header-sortable" style="width: 50px;">Age</th>
-                                <th class="jsgrid-header-sortable" style="width: 200px;">Address</th>
-                                <th class="jsgrid-align-center jsgrid-header-sortable" style="width: 100px;">Country</th>
-                                <th class="jsgrid-align-center" style="width: 100px;">Is Married</th>
-                                <th class="jsgrid-control-field jsgrid-align-center" style="width: 50px;"><input class="jsgrid-button jsgrid-mode-button jsgrid-search-mode-button jsgrid-mode-on-button" type="button" title="">
-                                </th>
-                            </tr>
-                            <tr class="jsgrid-filter-row">
-                                <td style="width: 150px;"><input type="text"></td>
-                                <td class="jsgrid-align-right" style="width: 50px;"><input type="number"></td>
-                                <td style="width: 200px;"><input type="text">
-                                </td><td class="jsgrid-align-center" style="width: 100px;">
-                                    <select>
-                                        <option value="0"></option>
-                                        <%
-                                            i = 1
-                                            wcount = tonumber(getWeekCount())
-                                            local weeks = getAllWeeks()
-                                            while i <= wcount do
-                                                local currentWeek = weeks[i]
-                                        %>
-                                        <option value="<%=i%>"><%=currentWeek.DATEDEBSEM%></option>
-                                        <% i = i + 1 end%>
-                                    </select>
-                                </td>
-                                <td class="jsgrid-align-center" style="width: 100px;"><input type="checkbox" readonly=""></td>
-                                <td class="jsgrid-control-field jsgrid-align-center" style="width: 50px;">
-                                    <input class="jsgrid-button jsgrid-search-button" type="button" title="Search">
-                                    <input class="jsgrid-button jsgrid-clear-filter-button" type="button" title="Clear filter">
-                                </td>
-                            </tr>
-                            <tr class="jsgrid-insert-row" style="display: none;">
-                                <td style="width: 150px;"><input type="text"></td>
-                                <td class="jsgrid-align-right" style="width: 50px;">
-                                    <input type="number">
-                                </td>
-                                <td style="width: 200px;">
-                                    <input type="text">
-                                </td>
-                                <td class="jsgrid-align-center" style="width: 100px;">
-                                    <select>
-                                        <option value="0"></option>
-                                        <%
-                                            i = 1
-                                            wcount = tonumber(getWeekCount())
-                                            local weeks = getAllWeeks()
-                                            while i <= wcount do
-                                                local currentWeek = weeks[i]
-                                        %>
-                                        <option value="<%=i%>"><%=currentWeek.DATEDEBSEM%></option>
-                                        <% i = i + 1 end%>
-                                    </select>
-                                </td>
-                                <td class="jsgrid-align-center" style="width: 100px;">
-                                    <input type="checkbox">
-                                </td>
-                                <td class="jsgrid-control-field jsgrid-align-center" style="width: 50px;">
-                                    <input class="jsgrid-button jsgrid-insert-button" type="button" title="Insert">
-                                </td>
-                            </tr>
-                            </tbody>
-                            </table>
+            <div id="grid-layout-div" class="box jplist">
+                <div class="jplist-ios-button"><i class="fa fa-sort"></i>jPList Actions</div>
+                <div class="jplist-panel box panel-top col-sm-15">
+                    <button type="button" data-control-type="reset" data-control-name="reset" data-control-action="reset" class="jplist-reset-btn btn btn-default">Reset<i class="fa fa-share mls"></i></button>
+                    <div data-control-type="drop-down" data-control-name="paging" data-control-action="paging" class="jplist-drop-down form-control">
+                        <ul class="dropdown-menu">
+                            <li><span data-number="3">Afficher 3 par page</span></li>
+                            <li><span data-number="5">Afficher 5 par page</span></li>
+                            <li><span data-number="10" data-default="true">Afficher 10 par page</span></li>
+                            <li><span data-number="all"> Tout voir</span></li>
+                        </ul>
                     </div>
-                    <div class="jsgrid-grid-body" style="height: 568px;">
-                        <table class="jsgrid-table" style="width: 1005px;">
-                            <tbody>
-                                
-                            </tbody>
-                        </table>
+
+                    <div class="text-filter-box">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input data-path=".nores" type="text" placeholder="Filtrer par Nom" data-control-type="textbox" data-control-name="title-filter" data-control-action="filter" class="form-control"/>
+                        </div>
                     </div>
+                    <div class="text-filter-box">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                            <input data-path=".datedeb" type="text" placeholder="yyyy-mm-jj" data-control-type="textbox" data-control-name="date-filter" data-control-action="filter" class="form-control"/>
+                        </div>
+                    </div>
+                    <div data-type="Page {current} of {pages}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
+                    <div data-control-type="pagination" data-control-name="paging" data-control-action="paging" class="jplist-pagination"></div>
                 </div>
+                <div class="list box text-shadow">
+                        <%
+                            a = 1
+                            count = getReservationCount()
+                            while a <= count do
+                                local temp = session.reservations[a]
+                        %>
+                        <div class="list-item box col-sm-12">
+                            <div class="col-sm-2 text-center">
+                                <p class="nores"><%= temp.NOMHEB%></p>
+                            </div>
+                            <div class="col-sm-1 box">
+                                <p class="datedeb"><%= temp.DATEDEBSEM%></p>
+                            </div>
+                            <div class="col-sm-1 text-center">
+                                <p class="user"><%= temp.USER%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="nometatresa"><%= temp.NOMETATRESA%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="dateresa"><%= temp.DATERESA%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="dateaccuserecept"><%= temp.DATEACCUSERECEPT%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="datearrhes"><%= temp.DATEARRHES%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="montantarrhes"><%= temp.MONTANTARRHES%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="nboccupant"><%= temp.NBOCCUPANT%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p class="prix"><%= temp.PRIXRESA%></p>
+                            </div>
+                            <div class="col-sm-1">
+                                <p>
+                                <form action="edit-resa" method="POST">
+                                    <input name="ID" type="hidden" value=<%=a%>>
+                                    <input class="btn btn-green" type="submit" value="Modifier">
+                                </form>
+                                </p>
+                            </div>
+                        </div>
+                        <%a = a + 1 end%>
+                </div>
+            </div>
         </div>
     </div>
 </div>

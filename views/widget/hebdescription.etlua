@@ -120,5 +120,18 @@ $(function() {
     </div>
     </div>
 </div>
-
+<script>
+$('#datepickerD').change(function() {
+   $.ajax({
+      url: '/ajax-test',
+      data: {alex:"alexandre"},
+      error: function() {
+         alert("error");
+      },
+      success: function(data) {
+         alert(data);
+      },
+      type: 'POST'
+   });
+});    
 </script>

@@ -20,12 +20,12 @@
     <script src="script/bootstrap.min.js"></script>
     <script src="script/respond.min.js"></script>
     <script src="script/responsive-tabs.js"></script>
+
     <script src="script/jplist.min.js"></script>
     
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid.min.css" />
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.4.1/jsgrid-theme.min.css" />
     <script src="script/jsgrid.min.js"></script>
-   
 
     
     <script>
@@ -59,6 +59,8 @@
                 render("views.widget.gestResaList")
             elseif session.activetab == "login" then
                 render("views.widget.loginform")
+            elseif session.activetab == "edit-resa" then
+                render("views.widget.editResa")
             end
             --end content
         %>

@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="panel">
+        <div class="panel-body">
+            <div id="jsGrid" class="jsgrid" style="position: relative; height: 90%; width: 100%;">
+                <div class="jsgrid-grid-header jsgrid-header-scrollbar">
+                    <table class="jsgrid-table">
+                        <tbody>
+                            <tr class="jsgrid-header-row">
+                                <th class="jsgrid-header-sortable" style="width: 50px;">Nom</th>
+                                <th class="jsgrid-align-right jsgrid-header-sortable" style="width: 50px;">Client</th>
+                                <th class="jsgrid-header-sortable" style="width: 50px;">Etat Réservation</th>
+                                <th class="jsgrid-align-center jsgrid-header-sortable" style="width: 50px;">Début Réservation</th>
+                                <th class="jsgrid-align-center" style="width: 50px;">Nombre occupants</th>
+                                <th class="jsgrid-control-field jsgrid-align-center" style="width: 50px;"></th>
+                            </tr>
+                            <tr class="jsgrid-filter-row">
+                                <form action="resa-filter" method="POST" class="form-horizontal">
+                                    <td style="width: 50px;"><input type="text"></td>
+                                    <td class="jsgrid-align-right" style="width: 50px;"></td>
+                                    <td style="width: 50px;">
+                                    </td><td class="jsgrid-align-center" style="width: 100px;">
+                                        <select>
+                                            <option value="0"></option>
+                                            <%
+                                                i = 1
+                                                wcount = tonumber(getWeekCount())
+                                                local weeks = getAllWeeks()
+                                                while i <= wcount do
+                                                    local currentWeek = weeks[i]
+                                            %>
+                                            <option value="<%=i%>"><%=currentWeek.DATEDEBSEM%></option>
+                                            <% i = i + 1 end%>
+                                        </select>
+                                    </td>
+                                    <td class="jsgrid-align-center" style="width: 50px;"></td>
+                                    <td class="jsgrid-control-field jsgrid-align-center" style="width: 50px;">
+                                        <input type="submit" class="jsgrid-button jsgrid-search-button" name="search" title="Search">
+                                        <input type="submit" class="jsgrid-button jsgrid-clear-filter-button" name="clear-search" title="Clear filter">
+                                    </td>
+                                </form>
+                            </tr>
+                            <tr>
+                                
+                            </tr>
+                            </tbody>
+                            </table>
+                    </div>
+                    <div class="jsgrid-grid-body" style="height: 568px;">
+                        <table class="jsgrid-table" style="width: 1005px;">
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

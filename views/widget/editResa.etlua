@@ -1,0 +1,33 @@
+<% a = "#mybutton" %>
+<div class="row">
+    <div class="col-lg-15 panel">
+        <div class="panel-body">
+            <p><h2>Modifier la réservation</h2></p>
+            <%
+                a = 1
+                count = 2
+                while a <= count do
+            %>
+            <input type="button" id="mybutton-<%=a%>" name="<%=a%>" value="test">
+            <script>
+            $('#mybutton-<%=a%>').click(function() {
+            alert($("#mybutton-<%=a%>").attr("name"));
+            $.ajax({
+                url: '/ajax-test',
+                data: {alex:"alexandre"},
+                error: function() {
+                    $('#result').html('An error has occurred');
+                },
+                success: function(data) {
+                    $('#result').html(data);
+                },
+                type: 'POST'
+            });
+            });
+            </script>
+            
+            <% a = a + 1 end %>
+            <p id="result"></p>
+        </div>
+    </div>
+</div>
