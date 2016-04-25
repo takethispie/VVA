@@ -72,7 +72,9 @@
             </div>
         </div>
     </div>
-    <% if session.user ~= nil then 
+</div>
+<div class="row">
+   <% if session.user ~= nil then 
         if session.user.TYPECOMPTE == "AVV" then 
             render("views.widget.addHebFormWidget") 
         end

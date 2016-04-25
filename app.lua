@@ -77,6 +77,11 @@ app:post("ajax-test","/ajax-test", function(self)
 	return "hi "..self.req.params_post.alex
 end)
 
+app:post("change-resa-state","/change-resa-state", function(self)
+    --debug print(self.req.params_post.date)
+	return self.req.params_post.newState
+end)
+
 app:post("loginExe","/loginExe", function(self)
     self.session.activetab = "acceuil"
 	connect(self.session,self)

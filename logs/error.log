@@ -211,3 +211,4 @@
 2016/04/20 18:34:50 [alert] 12526#0: lua_code_cache is off; this will hurt performance in /run/media/takethispie/Verbatim/BTS/PPE/VVA/nginx.conf.compiled:16
 2016/04/22 16:11:12 [alert] 9880#0: lua_code_cache is off; this will hurt performance in /media/takethispie/Verbatim/BTS/PPE/VVA/nginx.conf.compiled:16
 2016/04/24 15:37:34 [alert] 3061#0: lua_code_cache is off; this will hurt performance in /media/takethispie/Verbatim/BTS/PPE/VVA/nginx.conf.compiled:16
+2016/04/25 13:33:12 [alert] 16422#0: lua_code_cache is off; this will hurt performance in /media/takethispie/Verbatim/BTS/PPE/VVA/nginx.conf.compiled:16
