@@ -28,7 +28,7 @@ local SEMAINE = Model:extend("SEMAINE", {
 })
 
 local TARIF = Model:extend("TARIF", {
-  primary_key = "NOHEB"
+  primary_key = {"NOHEB","CODESAISON"}
 })
 
 local TYPEHEB = Model:extend("TYPE_HEB", {
@@ -52,12 +52,12 @@ function connect(session,app)
 		elseif session.user.TYPECOMPTE == "AVV" then
 			session.isAVV = true
             session.loggedIn = 1
-		elseif session.user.typeCompte == "VIL" then
+		elseif session.user.TYPECOMPTE == "VIL" then
 			session.isVIL = true
             session.loggedIn = 1
         else
             session.loggedIn = 0
-            print("wrong password if")
+            print("wrong password"..app.req.params_post.password)
 		end		
     else
         session.loggedIn = 0
@@ -93,31 +93,23 @@ end
 --***************************************************************************************************************************************************-
 --**************************** hebergement ****************************--
 
+-- 
 function addHeb(session,param)
 	local exists = HEBERGEMENT:find({NOMHEB = param.nomheb})
 	if exists == nil then
         print("hebergement added")
-		HEBERGEMENT:create({NOHEB=HEBERGEMENT:count(),CODETYPEHEB="0", NOMHEB = param.nomHeb, NBPLACEHEB = param.nbplace, SURFACEHEB = param.surface, INTERNET="1", ANNEEHEB = param.anneeheb, SECTEURHEB = param.sectheb, ORIENTATIONHEB = param.orientheb, ETATHEB = "Libre", DESCRIHEB = param.description})
+		HEBERGEMENT:create({NOHEB=HEBERGEMENT:count(),CODETYPEHEB="0", NOMHEB = param.nomheb, NBPLACEHEB = param.numpers, SURFACEHEB = param.surface, INTERNET="1", ANNEEHEB = param.anneeheb, SECTEURHEB = param.sectheb, ORIENTATIONHEB = param.orientheb, ETATHEB = "Libre", DESCRIHEB = param.description, PHOTOHEB = "static/images/nopicture.jpeg"})
+        TARIF:create({NOHEB=HEBERGEMENT:count(),CODESAISON=1,PRIXHEB=param.prixete})
+        TARIF:create({NOHEB=HEBERGEMENT:count(),CODESAISON=0,PRIXHEB=param.prixhiver})
 	end
-    print("sorry can't do")
-end
-
---retourne les hebergements qui ne sont pas reservé
-function getAvailableHeb(session,param)
-    --to be done
-end
-
---retourne les hebergements dans la tranche de prix
-function getHebInPriceRange(session,param)
-
+    print("Error: can't add hebergement")
 end
 
 -- reserve un hebergement
 function resHeb(session,heb,dateDebut,dateFin)
-    local booked = isBooked(heb,dateDebut,dateFin)
+    local booked = isBooked(heb.NOHEB,dateDebut)
     -- verifier que heb ,n'est pas reservé
     if booked == 1 then
-        print("rsv_saved")
         book(session,heb,dateDebut,dateFin)
         return 1
 
@@ -153,8 +145,8 @@ end
 --**************************** reservation ****************************--
 
 -- 0 = erreur, 1 = pas reservé, 2 = reservé
-function isBooked(heb,dateDeb,dateFin)
-	local res = RESERVATION:find(heb.NOHEB,dateDeb)
+function isBooked(noheb,dateDeb)
+	local res = RESERVATION:find(noheb,dateDeb)
 
 	if res == nil then
 		return 1
@@ -238,9 +230,16 @@ end
 --***************************************************************************************************************************************************-
 --****************************** tarif *******************************--
 function getTarif(dateDeb,heb)
-    local tarif = TARIF:find(heb.NOHEB,dateDeb)
+    local tarif = TARIF:find(heb.NOHEB)
     print(tarif.PRIXHEB)
     return tarif.PRIXHEB
+end
+
+-- 0 = hiver, 1 = été
+function getTarifFind(noheb,code)
+    local tarif = TARIF:find({NOHEB = noheb,CODESAISON = code})
+    print(tarif.PRIXHEB)
+    return tarif
 end
 
 --********************************************************************--

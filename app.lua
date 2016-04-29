@@ -20,6 +20,7 @@ app.layout = false
 app:match("gallery","/gallery", function(self)
 	self.session.numhebergement = getHebCount()
     self.session.activetab = "gallery"
+    self.session.breadTitle = "Liste des hébergements"
 	return { render = "index" }
 end)
 
@@ -56,11 +57,6 @@ app:match("gestUserList","/gestUserList", function(self)
 	return { render = "index" }
 end)
 
-app:match("/filter-week", function(self)
-	print(self.req.params_post.sem)
-	return { render = "index" }
-end)
-
 app:match("Disconnect","/Disconnect", function(self)
     self.session.activetab = "acceuil"
 	disconnect(self.session)
@@ -72,14 +68,15 @@ end)
 
 ---------------------------POST----------------------------
 
-app:post("ajax-test","/ajax-test", function(self)
-    print(inspect(self.req.params_post))
-	return "hi "..self.req.params_post.alex
-end)
-
 app:post("change-resa-state","/change-resa-state", function(self)
     --debug print(self.req.params_post.date)
 	return self.req.params_post.newState
+end)
+
+app:post("get-heb-availability","/get-heb-availability", function(self)
+    print(self.req.params_post.date)
+    print(self.req.params_post.noheb)
+    print(isBooked(self.req.params_post.noheb,self.req.params_post.date))
 end)
 
 app:post("loginExe","/loginExe", function(self)
@@ -97,23 +94,42 @@ app:post("registerExe","/registerExe", function(self)
 end)
 
 app:post("modifHeb","/modifHeb", function(self)
+    self.session.hebergement = getHebFind(self.req.params_post.ID)
 	self.session.activetab = "modifHeb"
+    self.session.breadTitle = "Modifier Hébergement"
 	return {  render = "index" }
 end)
 
-app:post("Search","/Search", function(self)
-	heb = getHebSelect("where NOMHEB like '%"..self.req.params_post.searchInput.."%'")
-	print(heb.NOMHEB)
-	return { render = "index" }
-end)
-
-app:post("contactExe","/contactExe",function(self)
-	-- send mail
-	return { render = "index" }
-end)
-
-app:post("addMember","/addMember", function(self)
-	return { render = "index" }
+app:post("modifHebExe","/modifHebExe", function(self)
+    --print("ID "..self.req.params_post.ID)
+    local heb = getHebFind(self.req.params_post.ID)
+    local prixhiver = getTarifFind(heb.NOHEB,0)
+    local prixete = getTarifFind(heb.NOHEB,1)
+    
+    if heb ~= nil and prixhiver ~= nil and prixete ~= nil then
+        --print(inspect(heb))
+        heb.ANNEEHEB = self.req.params_post.anneeheb
+        heb.DESCRIHEB = self.req.params_post.description
+        heb.ETATHEB = self.req.params_post.etatheb
+        heb.INTERNET = self.req.params_post.internet
+        heb.NBPLACEHEB = self.req.params_post.numpers
+        heb.NOMHEB = self.req.params_post.nomheb
+        heb.ORIENTATIONHEB = self.req.params_post.orientheb
+        heb.SURFACEHEB = self.req.params_post.surface
+        heb.SECTEURHEB = self.req.params_post.sectheb
+        prixete.PRIXHEB = self.req.params_post.prixete
+        prixhiver.PRIXHEB = self.req.params_post.prixhiver
+        
+        heb:update("ANNEEHEB","DESCRIHEB","ETATHEB","INTERNET","NBPLACEHEB","NOMHEB","ORIENTATIONHEB","SURFACEHEB","SECTEURHEB")
+        prixete:update("PRIXHEB")
+        prixhiver:update("PRIXHEB")
+        print("hebergement updated")
+    else
+        -- will need to check that in the view
+        print("error updating")
+        self.res.hasError = true
+    end
+	return {  render = "index" }
 end)
 
 --check fields and dates to book an estate

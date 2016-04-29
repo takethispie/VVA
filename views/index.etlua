@@ -41,8 +41,8 @@
 </head>
 
 <body>
-        <% render("views.widget.topbar") %>
-        <div style="width:100%; padding-left:50px; padding-right:50px;padding-top:15px;">
+    <% render("views.widget.topbar") %>
+    <div style="width:100%; padding-left:50px; padding-right:50px;padding-top:15px;">
         <%
             --begin content
             if session.activetab == "acceuil" then
@@ -61,9 +61,11 @@
                 render("views.widget.loginform")
             elseif session.activetab == "edit-resa" then
                 render("views.widget.editResa")
+            elseif session.activetab == "modifHeb" then
+                render("views.widget.modifHeb")
             end
             --end content
         %>
-        </div>
+    </div>
 </body>
 </html>

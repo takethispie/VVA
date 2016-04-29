@@ -1,0 +1,33 @@
+<div class="panel panel-body col-sm-5">
+    <form action="modifHebExe" method="post">
+        <h3>Ajouter Hebergement</h3><br>
+        <div class="col-sm-8" style="margin: 10px;"><input type="text" placeholder="Nom Hebergement" name="nomheb" value="<%= session.hebergement.NOMHEB%>" class="form-control"/></div>
+        <div class="col-sm-8" style="margin: 10px;"><input type="text" placeholder="Description" name="description" value="<%= session.hebergement.DESCRIHEB%>" class="form-control"/></div>
+        <div class="col-sm-8" style="margin: 10px;">
+            Internet :
+            <select name="internet">
+                <option value="1" <%if session.hebergement.INTERNET == 1 then%> selected <%end%>>Oui</option>
+                <option value="0" <%if session.hebergement.INTERNET == 0 then%> selected <%end%>>Non</option>
+            </select>
+        </div>
+        <div class="col-sm-6" style="margin: 10px;">Nombre de Personnes Max: <input type="number" min="1" value="<%= session.hebergement.NBPLACEHEB%>" placeholder=1 name="numpers" id="numPers" style="width: 40px;"/></div>
+        <div class="col-sm-8" style="margin: 10px;"><input type="text" placeholder="Surface" name="surface" value="<%= session.hebergement.SURFACEHEB%>" class="form-control"/></div>
+        <div class="col-sm-8" style="margin: 10px;"><input type="text" placeholder="Année Hebergement" name="anneeheb" value="<%= session.hebergement.ANNEEHEB%>" class="form-control"/></div>
+        <div class="col-sm-8" style="margin: 10px;"><input type="text" placeholder="Secteur Hebergement" name="sectheb" value="<%= session.hebergement.SECTEURHEB%>" class="form-control"/></div>
+        <div class="col-sm-8" style="margin: 10px;">
+            Orientation hébergement :
+            <select name="orientheb" id="sel-orentation">
+                <option value="Nord">Nord</option>
+                <option value="Sud">Sud</option>
+                <option value="Est">Est</option>
+                <option value="Ouest">Ouest</option>
+            </select>
+        </div>
+        <div class="col-sm-5">Prix été : <input type="number" min="1" placeholder="300" name="prixete" id="prixete" value=<%= getTarifFind(session.hebergement.NOHEB,1).PRIXHEB%> style="width: 80px;"/></div>
+        <div class="col-sm-5">Prix hiver : <input type="number" min="1" placeholder="300" name="prixhiver" id="prixhiver" value=<%= getTarifFind(session.hebergement.NOHEB,0).PRIXHEB%> style="width: 80px;"/></div>
+        <div class="col-lg-8" style="margin: 10px;"><input type="text" placeholder="Etat Hebergement" name="etatheb" value="<%= session.hebergement.ETATHEB %>" class="form-control"/></div>
+        <hr><br>
+        <input type="hidden" value="<%= session.hebergement.NOHEB %>" name="ID" />
+        <button type="submit" class="btn btn-green btn-block">Modifier</button>
+    </form>
+</div> 

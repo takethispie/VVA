@@ -1,5 +1,5 @@
-<div class="row">
-    <div class="col-lg-15 panel">
+<div class="row mtl">
+    <div class="col-lg-12 panel">
         <div class="panel-body">
             <div id="grid-layout-div" class="box jplist">
                 <div class="jplist-ios-button"><i class="fa fa-sort"></i>jPList Actions</div>
@@ -31,39 +31,38 @@
                             a = 0
                             count = tonumber(getHebCount())
                             while a < count do
-                            session.hebergement = getHebFind(a)
+                            hebergement = getHebFind(a)
                         %>
                         <div class="list-item box col-lg-12"><!--<img/>-->
-                            <div class="box img left"><img src=<%= session.hebergement.PHOTOHEB%> alt="" title=""></div>
+                            <div class="box img left"><img src=<%= hebergement.PHOTOHEB%> alt="" title=""></div>
                             <!--<data></data>-->
                             <div class="box block right">
-                                <p class="title"><%= session.hebergement.NOMHEB %></p>
+                                <p class="title"><%= hebergement.NOMHEB %></p>
                                 <div class="col-sm-2">
-                                  <p> Nombre de places: <%= session.hebergement.NBPLACEHEB%> </p>
-                                  <p>Surface Location: <%= session.hebergement.SURFACEHEB%></p>
-                                  <p>Internet: <% if session.hebergement.INTERNET == 1 then %> Oui <%else%> Non <%end%></p>
-                                  <p>Secteur Location: <%= session.hebergement.SECTEURHEB%></p>
+                                  <p> Nombre de places: <%= hebergement.NBPLACEHEB%> </p>
+                                  <p>Surface Location: <%= hebergement.SURFACEHEB%></p>
+                                  <p>Internet: <% if hebergement.INTERNET == 1 then %> Oui <%else%> Non <%end%></p>
+                                  <p>Secteur Location: <%= hebergement.SECTEURHEB%></p>
                                 </div>
-                                <div class="col-sm-2">
-                                  <p class="desc"><h4>Description:</h4><%= session.hebergement.DESCRIHEB %></p>
+                                <div class="col-sm-4">
+                                  <p class="desc"><h4>Description:</h4><%= hebergement.DESCRIHEB %></p>
                                 </div>
                                 <% if session.user ~= nil then
                                 if session.user.TYPECOMPTE == "VIL" or session.user.TYPECOMPTE == "ADM" or session.user.TYPECOMPTE == "AVV" then %>
-                                <form action="hebinfo" method="post">
-                                  <input name="ID" type="hidden" value=<%= a%> >
-                                  <input class="btn btn-green btn-datagrid col-sm-1" style="margin-left:5px;" type="submit" value="Consulter">
-                                </form>
-                                <% else %>
-                                <!-- actually not working -->
-                                <div class="col-sm-2">
-                                  <p>Veuillez vous connecter</p>
-                                </div>
-                                <% end 
-                                if session.user.TYPECOMPTE == "AVV" then %>
-                                    <form action="modifHeb" method="post">
-                                        <input name="ID" type="hidden" value=<%= a%> >
-                                        <input class="btn btn-green btn-datagrid col-sm-1" type="submit" value="Modifier">
+                                <div class="col-lg-6">
+                                    <form action="hebinfo" method="post">
+                                        <input name="ID" type="hidden" value=<%= hebergement.NOHEB%> >
+                                        <input class="btn btn-green btn-datagrid" style="margin-left:5px;" type="submit" value="Consulter">
                                     </form>
+                                <% else %>
+                                        <!-- actually not working -->
+                                        <p>Veuillez vous connecter</p>
+                                <% end if session.user.TYPECOMPTE == "AVV" or session.user.TYPECOMPTE == "ADM" then %>
+                                        <form action="modifHeb" method="post">
+                                            <input name="ID" type="hidden" value=<%= hebergement.NOHEB%> >
+                                            <input class="btn btn-green btn-datagrid" type="submit" value="Modifier">
+                                        </form>
+                                </div>
                                 <%end end%>
                             </div>
                         </div>
@@ -74,12 +73,15 @@
     </div>
 </div>
 <div class="row">
-   <% if session.user ~= nil then 
-        if session.user.TYPECOMPTE == "AVV" then 
-            render("views.widget.addHebFormWidget") 
+    <div class="col-lg-4">
+        <% if session.user ~= nil then 
+            if session.user.TYPECOMPTE == "AVV" then 
+                render("views.widget.addHebForm") 
+            end
         end
-       end
-    %>
+        %>
+    </div>
 </div>
+
 
 

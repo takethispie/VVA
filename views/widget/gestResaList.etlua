@@ -33,104 +33,139 @@
                     <div data-type="Page {current} of {pages}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
                     <div data-control-type="pagination" data-control-name="paging" data-control-action="paging" class="jplist-pagination"></div>
                 </div>
+                <br><br>
+                
                 <div class="list box text-shadow">
-                        <%
-                            a = 1
-                            count = getReservationCount()
-                            while a <= count do
-                                local temp = session.reservations[a]
-                        %>
-                        <div class="list-item box col-md-12">
-                            <div class="col-md-2 text-center" style="width: 15%;">
-                                <p class="nores"><%= temp.NOMHEB%></p>
-                            </div>
-                            <div class="col-sm-1 text-center" style="width: 15%;">
-                                <p class="user"><%= temp.USER%></p>
-                            </div>
-                            <div class="col-sm-1 box" style="width: 6%;">
-                                <p class="datedeb"><%= temp.DATEDEBSEM%></p>
-                            </div>
-                            <div class="col-sm-1" style="width: 6%;">
-                                <p id="etatresa<%=a-1%>" class="nometatresa"><%= temp.NOMETATRESA%></p>
-                            </div>
-                            <div class="col-sm-1" style="width: 6%;">
-                                <p class="dateresa"><%= temp.DATERESA%></p>
-                            </div>
-                            <div class="col-sm-1" style="width: 6%;">
-                                <p class="dateaccuserecept"><%= temp.DATEACCUSERECEPT%></p>
-                            </div>
-                            <div class="col-sm-1" style="width: 6%;">
-                                <p class="datearrhes"><%= temp.DATEARRHES%></p>
-                            </div>
-                            <div class="col-sm-1" style="width: 3%;">
-                                <p class="montantarrhes"><%= temp.MONTANTARRHES%></p>
-                            </div>
-                            <div class="col-sm-1" style="width: 2%;">
-                                <p class="nboccupant"><%= temp.NBOCCUPANT%></p>
-                            </div>
-                            <div class="col-sm-1" style="width: 4%;">
-                                <p class="prix"><%= temp.PRIXRESA%></p>
-                            </div>
-                            <div class="col-md-1 text-left"  style="width: 13%;">
-                                <span id="sel-text-<%=a-1%>">Changer l'état de la réservation:</span><br>
-                                <select id="resa-state-sel-<%=a-1%>">
-                                    <% if tonumber(temp.CODEETATRESA) < 1 then%>
-                                    <option id="sel-1-<%=a-1%>" value="resa_recept">accusé de reception réservation</option>
-                                    <% end
-                                    if tonumber(temp.CODEETATRESA) < 2 then%>
-                                    <option id="sel-2-<%=a-1%>" value="resa_arrhes">paiement des arrhes </option>
-                                    <% end
-                                    if tonumber(temp.CODEETATRESA) < 3 then %>
-                                    <option id="sel-3-<%=a-1%>" value="resa_key">récéption des clés</option>
-                                    <%end%>
-                                </select>
-                            </div>
-                            <div class="col-md-1">
-                                <br><p><input type="button" id="confirm-change-<%=a-1%>" value="Confirmer"></p>
-                            </div>
-                           <div class="col-md-1" style="width: 5%;">
-                                <p id="result"><br></p>
-                            </div>
-                            <script>
-                                var noheb<%=a-1%> = <%= temp.NOHEB%>;
-                                var datedebsem<%=a-1%> = "<%= temp.DATEDEBSEM%>";
-                                var resaState<%=a-1%> = "<%= temp.NOMETATRESA%>";
-                                $('#confirm-change-<%=a-1%>').click(function() {
-                                    $.ajax({
-                                        url: '/change-resa-state',
-                                        data: {noheb:noheb<%=a-1%>,date:datedebsem<%=a-1%>, newState:document.getElementById("resa-state-sel-<%=a-1%>").value},
-                                        error: function() {
-                                            $('#result').html('il y a eu une erreur');
-                                        },
-                                        success: function(data) {
-                                            $('#result').html('changement effectué');
-                                            $('#etatresa<%=a-1%>').html(data);
-                                            resaState<%=a-1%> = data;
-                                            switch(resaState<%=a-1%>)
-                                            {
-                                                case "resa_recept":
-                                                document.getElementById("sel-1-<%=a-1%>").style.display = 'none';
-                                                break;
-                                                
-                                                case "resa_arrhes":
-                                                document.getElementById("sel-1-<%=a-1%>").style.display = 'none';
-                                                document.getElementById("sel-2-<%=a-1%>").style.display = 'none';
-                                                break;
-                                                
-                                                case "resa_key":
-                                                document.getElementById("resa-state-sel-<%=a-1%>").style.display = 'none';
-                                                document.getElementById("confirm-change-<%=a-1%>").style.display = 'none';
-                                                $("#sel-text-<%=a-1%>").html('Aucune Modification Possible');
-                                                break;
-                                            }
-                                        },
-                                        type: 'POST'
-                                    });
-                                });
-                            </script>
+                    <!--row titles-->
+                    <div class="box col-lg-12 panel">
+                        <div class="col-md-2 text-center" style="width: 15%;">
+                            <p>Nom hébergement</p>
                         </div>
-
-                        <%a = a + 1 end%>
+                        <div class="col-sm-1 text-center" style="width: 15%;">
+                            <p>Utilisateur</p>
+                        </div>
+                        <div class="col-sm-1 box" style="width: 6%;">
+                            <p>Date début de réservation</p>
+                        </div>
+                        <div class="col-sm-1" style="width: 6%;">
+                            <p>état de la réservation</p>
+                        </div>
+                        <div class="col-sm-1" style="width: 6%;">
+                            <p>Date de la réservation</p>
+                        </div>
+                        <div class="col-sm-1" style="width: 6%;">
+                            <p>Date accusé de récéption</p>
+                        </div>
+                        <div class="col-sm-1" style="width: 6%;">
+                            <p>Date récéption des Arrhes</p>
+                        </div>
+                        <div class="col-sm-1 text-left" style="width: 5%;">
+                            <p>Montant des Arrhes</p>
+                        </div>
+                        <div class="col-sm-1 text-left" style="width: 6%;">
+                            <p>Nombre d'occupants</p>
+                        </div>
+                        <div class="col-sm-1" style="width: 6%;">
+                            <p>Prix réservation</p>
+                        </div>
+                    </div>
+                    
+                    <%
+                        a = 1
+                        count = getReservationCount()
+                        while a <= count do
+                            local temp = session.reservations[a]
+                    %>
+                    <div class="list-item box col-md-12">
+                        <div class="col-md-2 text-center" style="width: 15%;">
+                            <p class="nores"><%= temp.NOMHEB%></p>
+                        </div>
+                        <div class="col-sm-1 text-center" style="width: 15%;">
+                            <p class="user"><%= temp.USER%></p>
+                        </div>
+                        <div class="col-sm-1 box" style="width: 6%;">
+                            <p class="datedeb"><%= temp.DATEDEBSEM%></p>
+                        </div>
+                        <div class="col-sm-1" style="width: 6%;">
+                            <p id="etatresa<%=a-1%>" class="nometatresa"><%= temp.NOMETATRESA%></p>
+                        </div>
+                        <div class="col-sm-1" style="width: 6%;">
+                            <p class="dateresa"><%= temp.DATERESA%></p>
+                        </div>
+                        <div class="col-sm-1" style="width: 6%;">
+                            <p class="dateaccuserecept"><%= temp.DATEACCUSERECEPT%></p>
+                        </div>
+                        <div class="col-sm-1" style="width: 6%;">
+                            <p class="datearrhes"><%= temp.DATEARRHES%></p>
+                        </div>
+                        <div class="col-sm-1" style="width: 3%;">
+                            <p class="montantarrhes"><%= temp.MONTANTARRHES%></p>
+                        </div>
+                        <div class="col-sm-1 text-center" style="width: 8%;">
+                            <p class="nboccupant"><%= temp.NBOCCUPANT.." Personne(s)"%></p>
+                        </div>
+                        <div class="col-sm-1 text-center" style="width: 4%;">
+                            <p class="prix"><%= temp.PRIXRESA%></p>
+                        </div>
+                        <div class="col-md-1 text-left"  style="width: 13%;">
+                            <span id="sel-text-<%=a-1%>">Changer l'état de la réservation:</span><br>
+                            <select id="resa-state-sel-<%=a-1%>">
+                                <% if tonumber(temp.CODEETATRESA) < 1 then%>
+                                <option id="sel-1-<%=a-1%>" value="resa_recept">accusé de reception réservation</option>
+                                <% end
+                                if tonumber(temp.CODEETATRESA) < 2 then%>
+                                <option id="sel-2-<%=a-1%>" value="resa_arrhes">paiement des arrhes </option>
+                                <% end
+                                if tonumber(temp.CODEETATRESA) < 3 then %>
+                                <option id="sel-3-<%=a-1%>" value="resa_key">récéption des clés</option>
+                                <%end%>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <br><p><input type="button" id="confirm-change-<%=a-1%>" value="Confirmer"></p>
+                        </div>
+                        <div class="col-md-1" style="width: 5%;">
+                            <p id="result"><br></p>
+                        </div>
+                        <script>
+                            var noheb<%=a-1%> = <%= temp.NOHEB%>;
+                            var datedebsem<%=a-1%> = "<%= temp.DATEDEBSEM%>";
+                            var resaState<%=a-1%> = "<%= temp.NOMETATRESA%>";
+                            $('#confirm-change-<%=a-1%>').click(function() {
+                                $.ajax({
+                                    url: '/change-resa-state',
+                                    data: {noheb:noheb<%=a-1%>,date:datedebsem<%=a-1%>, newState:document.getElementById("resa-state-sel-<%=a-1%>").value},
+                                    error: function() {
+                                        $('#result').html('il y a eu une erreur');
+                                    },
+                                    success: function(data) {
+                                        $('#result').html('changement effectué');
+                                        $('#etatresa<%=a-1%>').html(data);
+                                        resaState<%=a-1%> = data;
+                                        switch(resaState<%=a-1%>)
+                                        {
+                                            case "resa_recept":
+                                            document.getElementById("sel-1-<%=a-1%>").style.display = 'none';
+                                            break;
+                                            
+                                            case "resa_arrhes":
+                                            document.getElementById("sel-1-<%=a-1%>").style.display = 'none';
+                                            document.getElementById("sel-2-<%=a-1%>").style.display = 'none';
+                                            break;
+                                            
+                                            case "resa_key":
+                                            document.getElementById("resa-state-sel-<%=a-1%>").style.display = 'none';
+                                            document.getElementById("confirm-change-<%=a-1%>").style.display = 'none';
+                                            $("#sel-text-<%=a-1%>").html('Aucune Modification Possible');
+                                            break;
+                                        }
+                                    },
+                                    type: 'POST'
+                                });
+                            });
+                        </script>
+                    </div>
+                    <%a = a + 1 end%>
                 </div>
             </div>
         </div>
