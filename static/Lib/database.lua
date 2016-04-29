@@ -7,11 +7,11 @@ local COMPTE = Model:extend("COMPTE", {
   primary_key = "USER"
 })
 
-local ETATRESERVATION = Model:extend("ETAT_RESA", {
+ETATRESERVATION = Model:extend("ETAT_RESA", {
   primary_key = "CODEETARESA"
 })
 
-local HEBERGEMENT = Model:extend("HEBERGEMENT", {
+HEBERGEMENT = Model:extend("HEBERGEMENT", {
     primary_key = "NOHEB"
 })
 
@@ -19,23 +19,23 @@ RESERVATION = Model:extend("RESA", {
     primary_key = {"NOHEB","DATEDEBSEM"}
 })
 
-local SAISON = Model:extend("SAISON", {
+SAISON = Model:extend("SAISON", {
   primary_key = "CODESAISON"
 })
 
-local SEMAINE = Model:extend("SEMAINE", {
+SEMAINE = Model:extend("SEMAINE", {
   primary_key = "DATEDEBSEM"
 })
 
-local TARIF = Model:extend("TARIF", {
+TARIF = Model:extend("TARIF", {
   primary_key = {"NOHEB","CODESAISON"}
 })
 
-local TYPEHEB = Model:extend("TYPE_HEB", {
+TYPEHEB = Model:extend("TYPE_HEB", {
   primary_key = "CODETYPEHEB"
 })
 
-local VILLAGEOIS = Model:extend("VILLAGEOIS", {
+VILLAGEOIS = Model:extend("VILLAGEOIS", {
   primary_key = "NOVILLAGEOIS"
 })
 
@@ -242,5 +242,14 @@ function getTarifFind(noheb,code)
     return tarif
 end
 
+--********************************************************************--
+--***************************************************************************************************************************************************-
+
+
+--***************************************************************************************************************************************************-
+--****************************** saison *******************************--
+function getSaison(date)
+    return SAISON:select("where DATEDEBSAISON <= '"..date.."' AND DATEFINSAISON >= '"..date.."'")
+end
 --********************************************************************--
 --***************************************************************************************************************************************************-

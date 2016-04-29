@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="panel col-lg-6">
+        <div class="panel-body">
+            <div id="grid-layout-div" class="box jplist">
+                <div class="jplist-ios-button"><i class="fa fa-sort"></i>jPList Actions</div>
+                <div class="jplist-panel box panel-top col-sm-10">
+                    <button type="button" data-control-type="reset" data-control-name="reset" data-control-action="reset" class="jplist-reset-btn btn btn-default">Reset<i class="fa fa-share mls"></i></button>
+                    <div data-control-type="drop-down" data-control-name="paging" data-control-action="paging" class="jplist-drop-down form-control">
+                        <ul class="dropdown-menu">
+                            <li><span data-number="3">Afficher 3 par page</span></li>
+                            <li><span data-number="5">Afficher 5 par page</span></li>
+                            <li><span data-number="10" data-default="true">Afficher 10 par page</span></li>
+                            <li><span data-number="all"> Tout voir</span></li>
+                        </ul>
+                    </div>
+                    <div class="text-filter-box">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input data-path=".datedebsaison" type="text" placeholder="Filtrer par Date de Début de saison" data-control-type="textbox" data-control-name="title-filter" data-control-action="filter" class="form-control"/>
+                        </div>
+                    </div>
+                    <div data-type="Page {current} of {pages}" data-control-type="pagination-info" data-control-name="paging" data-control-action="paging" class="jplist-label btn btn-default"></div>
+                    <div data-control-type="pagination" data-control-name="paging" data-control-action="paging" class="jplist-pagination"></div>
+                </div><br><br>                
+                <div class="list box text-shadow" style="margin:10px;">
+                    <!--row titles-->
+                    <div class="col-lg-8 panel">
+                        <div class="col-md-1 text-center">
+                            <p>Code saison</p>
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <p>Nom saison</p>
+                        </div>
+                        <div class="col-sm-2 box">
+                            <p>Date début de saison</p>
+                        </div>
+                        <div class="col-sm-2">
+                            <p>Date fin de saison</p>
+                        </div>
+                    </div>
+                    <span id="saison-list">
+                        <%
+                            a = 1
+                            count = tonumber(res.saisonCount)
+                            while a <= count do
+                                local temp = res.saisons[a]
+                        %>
+                        <div class="list-item box col-lg-8">
+                            <div class="col-md-1 text-center" >
+                                <p><%= temp.CODESAISON%></p>
+                            </div>
+                            <div class="col-sm-2 text-center" >
+                                <p><%= temp.NOMSAISON%></p>
+                            </div>
+                            <div class="col-sm-2 text-center">
+                                <p class="datedebsaison"><%= temp.DATEDEBSAISON%></p>
+                            </div>
+                            <div class="col-sm-2">
+                                <p><%= temp.DATEFINSAISON%></p>
+                            </div>
+                        </div>
+                        <%a = a + 1 end%>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel col-lg-6">
+        <div class="panel-body">
+            <p><h3>Ajouter une saison</h3></p>
+            
+            <div class="col-xs-5">
+                <div class="week-picker"></div>
+                <input type="text" readonly placeholder="Date Debut" id="datepickerD" name="datepickerD" style="margin:10px;"/>
+                <input type="number" placeholder="Nombre de semaines" min="1" id="numsem" name="numsem" style="margin:10px;"/><br>
+                <input type="button" value="Ajouter Saison" id="add-saison" class="btn btn-green" style="margin:10px;"/>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+//first datepicker
+$(function() {
+    var startDate;
+    $('.week-picker').datepicker( {
+        firstDay: 6, dateFormat: 'yy-mm-dd',
+        showOtherMonths: true, selectOtherMonths: true,
+        
+        onSelect: function(dateText, inst) { 
+            var date = $(this).datepicker('getDate');
+            startDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 6);
+            var dateFormat = inst.settings.dateFormat || $.datepicker._defaults.dateFormat;
+            document.getElementById('datepickerD').value = $.datepicker.formatDate( dateFormat, startDate, inst.settings );
+        },
+        
+        beforeShowDay: function(date) {
+            if(date.getDay() == 6 && date > $.now()){
+                return [true];
+            } else {
+                return [false];
+            }
+        },
+    });
+    $('.week-picker .ui-datepicker-calendar tr').live('mousemove', function() { $(this).find('td a').addClass('ui-state-hover'); });
+    $('.week-picker .ui-datepicker-calendar tr').live('mouseleave', function() { $(this).find('td a').removeClass('ui-state-hover'); });
+});
+
+
+</script>
+<link rel="stylesheet" type="text/css" media="screen" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">

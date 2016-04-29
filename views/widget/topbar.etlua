@@ -10,6 +10,7 @@
                 <% if session.user ~= nil then
                      if session.user.TYPECOMPTE == "ADM" then%>
                         <li><a href="gestUserList">Utilisateurs</a></li>
+                        <li><a href="gestSaison">Saison</a></li>
                      <% elseif session.user.TYPECOMPTE == "AVV" then%>
                         <li><a href="gestResaList">Réservations</a></li>
                 <%   end

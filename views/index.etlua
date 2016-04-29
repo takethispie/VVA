@@ -63,6 +63,8 @@
                 render("views.widget.editResa")
             elseif session.activetab == "modifHeb" then
                 render("views.widget.modifHeb")
+            elseif session.activetab == "gestSaison" then
+                render("views.widget.gestSaison")
             end
             --end content
         %>

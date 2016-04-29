@@ -8,7 +8,6 @@ $(function() {
     $('.week-picker').datepicker( {
         firstDay: 6,
         dateFormat: 'yy-mm-dd',
-        showOtherMonths: true,
         selectOtherMonths: true,
         onSelect: function(dateText, inst) { 
             var date = $(this).datepicker('getDate');
@@ -22,7 +21,7 @@ $(function() {
                 url: '/get-heb-availability',
                 data: {date:$.datepicker.formatDate( dateFormat, startDate, inst.settings ), noheb:"<%= session.hebergement.NOHEB%>"},
                 error: function() {
-                    $('#price').html('Erreur: incapacité à trouver le prix');
+                    $('#price').html('Erreur: incapacité à acceder au prix');
                 },
                 success: function(data) {
                     if(data != "occupied"){
@@ -118,7 +117,6 @@ $(function() {
                     </div>
                     <hr/>
                     <div class="form-group"><label class="col-sm-3 control-label">Nombre de personnes</label>
-
                         <div class="col-sm-9 controls">
                             <div class="row">
                                 <div class="col-xs-5"><input type="number" min="1" value="1" max=<%= session.hebergement.NBPLACEHEB%> placeholder=1 id="numPers"/></div>
@@ -126,7 +124,15 @@ $(function() {
                         </div>
                     </div>
                     <hr/>
-                    <button type="submit" class="btn btn-green">Reserver</button>
+                    <div class="form-group"><label class="col-sm-3 control-label">Prix de l'hébergement</label>
+                        <div class="col-sm-9 controls">
+                            <div class="row">
+                                <div class="col-xs-5" id="price"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <button type="submit" id="res-btn" class="btn btn-green">Reserver</button>
                 </form>
             </div>
         </div>
@@ -137,17 +143,7 @@ $(function() {
     </div>
 </div>
 <script>
-$('#datepickerD').change(function() {
-   $.ajax({
-      url: '/ajax-test',
-      data: {alex:"alexandre"},
-      error: function() {
-         alert("error");
-      },
-      success: function(data) {
-         alert(data);
-      },
-      type: 'POST'
-   });
+$('#res-btn').click(function() {
+   
 });    
 </script>

@@ -4,10 +4,13 @@ local db = require("lapis.db")
 local Model = require("lapis.db.model").Model
 local validate = require("lapis.validate")
 local app_helpers = require("lapis.application")
-local util = require("lapis.util")
+util = require("lapis.util")
 local utils = require("/static/Lib/utils")
 database = require("/static/Lib/database")
+terminal = require("/static/Lib/ansicolors")
 inspect = require("/static/Lib/inspect")
+
+colors = require 'ansicolors'
 
 local capture_errors = app_helpers.capture_errors
 local app = lapis.Application()
@@ -57,6 +60,13 @@ app:match("gestUserList","/gestUserList", function(self)
 	return { render = "index" }
 end)
 
+app:match("gestSaison","/gestSaison", function(self)
+	self.session.activetab = "gestSaison"
+    self.res.saisons = SAISON:select()
+    self.res.saisonCount = SAISON:count()
+	return { render = "index" }
+end)
+
 app:match("Disconnect","/Disconnect", function(self)
     self.session.activetab = "acceuil"
 	disconnect(self.session)
@@ -69,14 +79,27 @@ end)
 ---------------------------POST----------------------------
 
 app:post("change-resa-state","/change-resa-state", function(self)
-    --debug print(self.req.params_post.date)
+    local res = RESERVATION:find(self.req.params_post.noheb,self.req.params_post.date)
+    local newstate = ETATRESERVATION:find({NOMETATRESA = self.req.params_post.newState})
+    res.CODEETATRESA = newstate.CODEETATRESA
+    res:update("CODEETATRESA")
 	return self.req.params_post.newState
 end)
 
 app:post("get-heb-availability","/get-heb-availability", function(self)
-    print(self.req.params_post.date)
-    print(self.req.params_post.noheb)
-    print(isBooked(self.req.params_post.noheb,self.req.params_post.date))
+    local libre = isBooked(self.req.params_post.noheb,self.req.params_post.date)
+    if  libre == 1 then
+        local saison = getSaison(self.req.params_post.date)
+        --print(inspect(saison[1]))
+        print(colors('%{white}'..saison[1].CODESAISON))
+        local tarif = TARIF:find(self.req.params_post.noheb,saison[1].CODESAISON)
+        print(colors('%{red}'..tarif.PRIXHEB))
+        return tostring(tarif.PRIXHEB)
+    elseif libre == 2 then 
+        return "occupied"
+    else
+        return "error"
+    end
 end)
 
 app:post("loginExe","/loginExe", function(self)
