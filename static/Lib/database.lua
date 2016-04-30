@@ -158,27 +158,22 @@ function isBooked(noheb,dateDeb)
 end
 
 --need to be finished
-function book(session,heb,dateDeb,dateFin,nbPers)
-    local price = tonumber(getTarif(dateDeb,heb))
-	
+function book(session,heb,dateDeb,dateFin,nbPers,price)
     if price == nil then
         print("error no season")
     else
-        local resDate = getCurrentDate()
-        --session.hebergement.NBPLACEHEB
         local arrhes = (price/100.0)*25.0
         print("arrhes: "..arrhes)
+        
 		local vill = VILLAGEOIS:find({USER = session.user.USER},"NOVILLAGEOIS")
-		
-		--dateDeb is nil
-		print("semaine: "..dateDeb)
 		if vill == nil then 
 			print("no vill")
 		else
-			print(vill.NOMVILLAGEOIS)
+			--print(vill.NOMVILLAGEOIS)
 			if getWeek(dateDeb) == nil then
 				print("week does not exists")
             else
+                local resDate = getCurrentDate()
                 RESERVATION:create({NOHEB=heb.NOHEB,DATEDEBSEM=dateDeb,NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=price,MONTANTARRHES=arrhes,NBOCCUPANT=nbPers,DATERESA=getCurrentDate()})
 			end
  		end

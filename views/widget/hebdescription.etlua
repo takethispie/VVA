@@ -24,11 +24,17 @@ $(function() {
                     $('#price').html('Erreur: incapacité à acceder au prix');
                 },
                 success: function(data) {
-                    if(data != "occupied"){
-                        $('#price').html(data);
+                    if(data == "occupied"){
+                        $('#price').html("Cet Hébergement est déjà réservé à cette date");
                     }
                     else {
-                        $('#price').html("Cet Hébergement est déjà réservé à cette date");
+                        if(data == "nosaison") {
+                            $('#price').html("Date hors-saison <br> veuillez choisir une autre date")
+                        }
+                        else {
+                            $('#price').html(data);
+                            $('#var_price').val(data)
+                        }
                     }
                 },
                 type: 'POST'
@@ -127,11 +133,13 @@ $(function() {
                     <div class="form-group"><label class="col-sm-3 control-label">Prix de l'hébergement</label>
                         <div class="col-sm-9 controls">
                             <div class="row">
-                                <div class="col-xs-5" id="price"></div>
+                                <div class="col-xs-5" id="price" name="price"></div>
+                                
                             </div>
                         </div>
                     </div>
                     <hr/>
+                    <input type="hidden" id="var_price" name="var_price"/>
                     <button type="submit" id="res-btn" class="btn btn-green">Reserver</button>
                 </form>
             </div>

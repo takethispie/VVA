@@ -7,9 +7,7 @@ local app_helpers = require("lapis.application")
 util = require("lapis.util")
 local utils = require("/static/Lib/utils")
 database = require("/static/Lib/database")
-terminal = require("/static/Lib/ansicolors")
 inspect = require("/static/Lib/inspect")
-
 colors = require 'ansicolors'
 
 local capture_errors = app_helpers.capture_errors
@@ -91,6 +89,10 @@ app:post("get-heb-availability","/get-heb-availability", function(self)
     if  libre == 1 then
         local saison = getSaison(self.req.params_post.date)
         --print(inspect(saison[1]))
+        --no season available
+        if saison[1] == nil then
+            return "nosaison"
+        end
         print(colors('%{white}'..saison[1].CODESAISON))
         local tarif = TARIF:find(self.req.params_post.noheb,saison[1].CODESAISON)
         print(colors('%{red}'..tarif.PRIXHEB))
@@ -157,7 +159,8 @@ end)
 
 --check fields and dates to book an estate
 app:post("reserver","/reserver", function(self)
-    resHeb(self.session,self.session.hebergement,self.params.datepickerD,self.params.datepickerF,self.params.numPers)
+    --resHeb(self.session,self.session.hebergement,self.params.datepickerD,self.params.datepickerF,self.params.numPers)
+    print(self.req.params_post.var_price)
     self.session.activetab = "acceuil"
 	return { render = "index" }
 end)
@@ -165,9 +168,9 @@ end)
 --check fields, add the hebergement or redirects if there's errors
 app:post("/addHeb", capture_errors(function(self)
 	validate.assert_valid(self.req.params_post,{
-	{"nomheb","erreur pas de nom", exists = true, min_length = 2, max_length = 40}
-	--need to add some validation
-})
+	   {"nomheb","erreur pas de nom", exists = true, min_length = 2, max_length = 40}
+	   --need to add some validation
+    })
 	addHeb(session,self.req.params_post)
     self.session.activetab = "acceuil"
 	return { render = "index" }
