@@ -25,6 +25,7 @@
         <div class="col-sm-5">Prix été : <input type="number" min="1" value="300" placeholder="300" name="prixete" id="prixete" style="width: 80px;"/></div>
         <div class="col-sm-5">Prix hiver : <input type="number" min="1" value="300" placeholder="300" name="prixhiver" id="prixhiver" style="width: 80px;"/></div>
         <div class="col-lg-8" style="margin: 10px;"><input type="text" placeholder="Etat Hebergement" name="etatheb" class="form-control"/></div>
+        <div class="col-lg-8" style="margin: 10px;"><input type="text" placeholder="Lien photo hébergement" name="hebimage" class="form-control"/></div>
         <hr><br>
         <button type="submit" class="btn btn-green btn-block">Ajouter</button>
     </form>

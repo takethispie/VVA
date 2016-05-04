@@ -1,3 +1,4 @@
+os = require("os")
 local lapis = require("lapis")
 local http = require("lapis.nginx.http")
 local db = require("lapis.db")
@@ -77,25 +78,36 @@ end)
 ---------------------------POST----------------------------
 
 app:post("change-resa-state","/change-resa-state", function(self)
-    local res = RESERVATION:find(self.req.params_post.noheb,self.req.params_post.date)
+    local resa = RESERVATION:find(self.req.params_post.noheb,self.req.params_post.date)
     local newstate = ETATRESERVATION:find({NOMETATRESA = self.req.params_post.newState})
-    res.CODEETATRESA = newstate.CODEETATRESA
-    res:update("CODEETATRESA")
-	return self.req.params_post.newState
+    resa.CODEETATRESA = newstate.CODEETATRESA
+    if newstate.NOMETATRESA == "resa_recept" then
+        resa.DATEACCUSERECEPT = getCurrentDate()
+    elseif newstate.NOMETATRESA == "resa_arrhes" then
+        resa.DATEARRHES = getCurrentDate()
+    end
+    resa:update("CODEETATRESA","DATEACCUSERECEPT","DATEARRHES")
+	return self.req.params_post.newState 
 end)
 
 app:post("get-heb-availability","/get-heb-availability", function(self)
     local libre = isBooked(self.req.params_post.noheb,self.req.params_post.date)
     if  libre == 1 then
         local saison = getSaison(self.req.params_post.date)
-        --print(inspect(saison[1]))
         --no season available
         if saison[1] == nil then
             return "nosaison"
         end
-        print(colors('%{white}'..saison[1].CODESAISON))
+        
+        local week = getWeek(self.req.params_post.date)
+        if week == nil then
+            return "noweek"
+        end
+        
+        print(colors('%{white} saison found: '..saison[1].CODESAISON))
         local tarif = TARIF:find(self.req.params_post.noheb,saison[1].CODESAISON)
-        print(colors('%{red}'..tarif.PRIXHEB))
+        print(colors('%{blue} tarif found : '..tarif.PRIXHEB))
+        self.session.price = tarif.PRIXHEB
         return tostring(tarif.PRIXHEB)
     elseif libre == 2 then 
         return "occupied"
@@ -119,6 +131,7 @@ app:post("registerExe","/registerExe", function(self)
 end)
 
 app:post("modifHeb","/modifHeb", function(self)
+    print("ID "..self.req.params_post.ID)
     self.session.hebergement = getHebFind(self.req.params_post.ID)
 	self.session.activetab = "modifHeb"
     self.session.breadTitle = "Modifier Hébergement"
@@ -126,7 +139,6 @@ app:post("modifHeb","/modifHeb", function(self)
 end)
 
 app:post("modifHebExe","/modifHebExe", function(self)
-    --print("ID "..self.req.params_post.ID)
     local heb = getHebFind(self.req.params_post.ID)
     local prixhiver = getTarifFind(heb.NOHEB,0)
     local prixete = getTarifFind(heb.NOHEB,1)
@@ -148,6 +160,8 @@ app:post("modifHebExe","/modifHebExe", function(self)
         heb:update("ANNEEHEB","DESCRIHEB","ETATHEB","INTERNET","NBPLACEHEB","NOMHEB","ORIENTATIONHEB","SURFACEHEB","SECTEURHEB")
         prixete:update("PRIXHEB")
         prixhiver:update("PRIXHEB")
+        self.res.prixete = prixete.PRIXHEB
+        self.res.prixhiver = prixhiver.PRIXHEB
         print("hebergement updated")
     else
         -- will need to check that in the view
@@ -159,9 +173,10 @@ end)
 
 --check fields and dates to book an estate
 app:post("reserver","/reserver", function(self)
-    --resHeb(self.session,self.session.hebergement,self.params.datepickerD,self.params.datepickerF,self.params.numPers)
-    print(self.req.params_post.var_price)
-    self.session.activetab = "acceuil"
+    print("price is : "..self.params.varprice)
+    resHeb(self.session,self.session.hebergement,self.params.datepickerD,self.params.datepickerF,self.params.numPers)
+    self.session.activetab = "message"
+    self.res.message = "Code Réservation: "..self.session.hebergement.NOHEB..self.params.datepickerD.."  veuillez conserver ce numero précieusement"
 	return { render = "index" }
 end)
 

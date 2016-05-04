@@ -1,6 +1,6 @@
 <div class="panel panel-body col-sm-5">
     <form action="modifHebExe" method="post">
-        <h3>Ajouter Hebergement</h3><br>
+        <h3>Modifier Hebergement</h3><br>
         <div class="col-sm-8" style="margin: 10px;"><input type="text" placeholder="Nom Hebergement" name="nomheb" value="<%= session.hebergement.NOMHEB%>" class="form-control"/></div>
         <div class="col-sm-8" style="margin: 10px;"><input type="text" placeholder="Description" name="description" value="<%= session.hebergement.DESCRIHEB%>" class="form-control"/></div>
         <div class="col-sm-8" style="margin: 10px;">
@@ -23,8 +23,8 @@
                 <option value="Ouest">Ouest</option>
             </select>
         </div>
-        <div class="col-sm-5">Prix été : <input type="number" min="1" placeholder="300" name="prixete" id="prixete" value=<%= getTarifFind(session.hebergement.NOHEB,1).PRIXHEB%> style="width: 80px;"/></div>
-        <div class="col-sm-5">Prix hiver : <input type="number" min="1" placeholder="300" name="prixhiver" id="prixhiver" value=<%= getTarifFind(session.hebergement.NOHEB,0).PRIXHEB%> style="width: 80px;"/></div>
+        <div class="col-sm-5">Prix été : <input type="number" min="1" placeholder="300" name="prixete" id="prixete" value="<%= getTarifFind(session.hebergement.NOHEB,1).PRIXHEB%>" style="width: 80px;"/></div>
+        <div class="col-sm-5">Prix hiver : <input type="number" min="1" placeholder="300" name="prixhiver" id="prixhiver" value="<%= getTarifFind(session.hebergement.NOHEB,0).PRIXHEB%>" style="width: 80px;"/></div>
         <div class="col-lg-8" style="margin: 10px;"><input type="text" placeholder="Etat Hebergement" name="etatheb" value="<%= session.hebergement.ETATHEB %>" class="form-control"/></div>
         <hr><br>
         <input type="hidden" value="<%= session.hebergement.NOHEB %>" name="ID" />

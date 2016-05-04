@@ -29,11 +29,14 @@ $(function() {
                     }
                     else {
                         if(data == "nosaison") {
-                            $('#price').html("Date hors-saison <br> veuillez choisir une autre date")
+                            $('#price').html("Date hors-saison <br> veuillez choisir une autre date");
+                        }
+                        else if(data == "noweek") {
+                            $('#price').html("Cette semaine ne peut être reservé <br> veuillez choisir une autre date");
                         }
                         else {
                             $('#price').html(data);
-                            $('#var_price').val(data)
+                            $('#varprice').val(data)
                         }
                     }
                 },
@@ -41,11 +44,6 @@ $(function() {
             });
         },
         beforeShowDay: function(date) {
-            var cssClass = '';
-            
-            //if(date >= startDate && date <= endDate)
-              //  cssClass = 'ui-datepicker-current-day';
-            //return [true, cssClass];
             if(date.getDay() == 6 && date > $.now()){
                 return [true];
             } else {
@@ -114,10 +112,8 @@ $(function() {
                             <div class="row">
                                 <div class="week-picker"></div>
                                 <br></br>
-                                <div class="col-xs-5">
-                                    <input type="text" readonly placeholder="Date Debut" id="datepickerD" name="datepickerD"/>
-                                    <input type="text" readonly placeholder="Date Debut" id="datepickerF" name="datepickerF"/>
-                                </div>
+                                <div class="col-xs-5"> Début de reservation : <input type="text" readonly placeholder="Date Debut" id="datepickerD" name="datepickerD"/></div>
+                                <div class="col-xs-5">Fin de réservation : <input type="text" readonly placeholder="Date Debut" id="datepickerF" name="datepickerF"/></div>
                             </div>
                         </div>
                     </div>
@@ -125,7 +121,7 @@ $(function() {
                     <div class="form-group"><label class="col-sm-3 control-label">Nombre de personnes</label>
                         <div class="col-sm-9 controls">
                             <div class="row">
-                                <div class="col-xs-5"><input type="number" min="1" value="1" max=<%= session.hebergement.NBPLACEHEB%> placeholder=1 id="numPers"/></div>
+                                <div class="col-xs-5"><input type="number" min="1" value="1" max="<%= session.hebergement.NBPLACEHEB%>" placeholder="1" name="numPers" id="numPers"/></div>
                             </div>
                         </div>
                     </div>
@@ -139,19 +135,10 @@ $(function() {
                         </div>
                     </div>
                     <hr/>
-                    <input type="hidden" id="var_price" name="var_price"/>
+                    <input type="input" hidden id="varprice" name="varprice" value="0"/>
                     <button type="submit" id="res-btn" class="btn btn-green">Reserver</button>
                 </form>
             </div>
         </div>
-        <div class="col-md-12">
-
-        </div>
-    </div>
     </div>
 </div>
-<script>
-$('#res-btn').click(function() {
-   
-});    
-</script>

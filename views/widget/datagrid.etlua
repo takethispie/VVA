@@ -47,14 +47,14 @@
                                 <div class="col-sm-4">
                                   <p class="desc"><h4>Description:</h4><%= hebergement.DESCRIHEB %></p>
                                 </div>
-                                <% if session.user ~= nil then
-                                if session.user.TYPECOMPTE == "VIL" or session.user.TYPECOMPTE == "ADM" or session.user.TYPECOMPTE == "AVV" then %>
                                 <div class="col-lg-6">
+                                <% if session.user ~= nil then
+                                if session.user.TYPECOMPTE == "VIL" or session.user.TYPECOMPTE == "ADM" then %>
                                     <form action="hebinfo" method="post">
                                         <input name="ID" type="hidden" value=<%= hebergement.NOHEB%> >
                                         <input class="btn btn-green btn-datagrid" style="margin-left:5px;" type="submit" value="Consulter">
                                     </form>
-                                <% else %>
+                                <% elseif session.user.TYPECOMPTE ~= "AVV" then %>
                                         <!-- actually not working -->
                                         <p>Veuillez vous connecter</p>
                                 <% end if session.user.TYPECOMPTE == "AVV" or session.user.TYPECOMPTE == "ADM" then %>
@@ -62,8 +62,8 @@
                                             <input name="ID" type="hidden" value=<%= hebergement.NOHEB%> >
                                             <input class="btn btn-green btn-datagrid" type="submit" value="Modifier">
                                         </form>
-                                </div>
                                 <%end end%>
+                                </div>
                             </div>
                         </div>
                         <% a = a + 1 end %>

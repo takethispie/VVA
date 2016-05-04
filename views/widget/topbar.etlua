@@ -25,7 +25,10 @@
                 <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Mon Compte<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="Account">Mon compte</a></li>
+                        <% if session.user ~= nil then
+                            if session.user.TYPECOMPTE == "VIL" then%>
                         <li><a href="#">Mes Réservations</a></li>
+                        <%end end%>
                         <li class="divider"></li>
                         <li><a href="Disconnect">Se Déconnecter</a></li>
                     </ul>

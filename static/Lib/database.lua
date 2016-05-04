@@ -3,7 +3,7 @@ local db = require("lapis.db")
 local Model = require("lapis.db.model").Model
 local utils = require("/static/Lib/utils")
 
-local COMPTE = Model:extend("COMPTE", {
+COMPTE = Model:extend("COMPTE", {
   primary_key = "USER"
 })
 
@@ -41,7 +41,7 @@ VILLAGEOIS = Model:extend("VILLAGEOIS", {
 
 --***************************************************************************************************************************************************-
 --****************************** COMPTE ******************************--
---used for login
+-- used for login
 function connect(session,app)
 	session.user = COMPTE:find({USER = app.req.params_post.login,MDP = app.req.params_post.password},"NOMCOMPTE")
 	-- check if account exists
@@ -84,42 +84,39 @@ end
 function getAccounts()
     return COMPTE:select("")
 end
-
 --********************************************************************--
 --***************************************************************************************************************************************************-
 
 
-
 --***************************************************************************************************************************************************-
 --**************************** hebergement ****************************--
-
--- 
 function addHeb(session,param)
 	local exists = HEBERGEMENT:find({NOMHEB = param.nomheb})
 	if exists == nil then
         print("hebergement added")
-		HEBERGEMENT:create({NOHEB=HEBERGEMENT:count(),CODETYPEHEB="0", NOMHEB = param.nomheb, NBPLACEHEB = param.numpers, SURFACEHEB = param.surface, INTERNET="1", ANNEEHEB = param.anneeheb, SECTEURHEB = param.sectheb, ORIENTATIONHEB = param.orientheb, ETATHEB = "Libre", DESCRIHEB = param.description, PHOTOHEB = "static/images/nopicture.jpeg"})
+        HEBERGEMENT:create({NOHEB=HEBERGEMENT:count(),CODETYPEHEB="0", NOMHEB = param.nomheb, NBPLACEHEB = param.numpers, SURFACEHEB = param.surface, INTERNET="1", ANNEEHEB = param.anneeheb, SECTEURHEB = param.sectheb, ORIENTATIONHEB = param.orientheb, ETATHEB = "Libre", DESCRIHEB = param.description, PHOTOHEB = param.hebimg or "static/images/nopicture.jpeg"})
         TARIF:create({NOHEB=HEBERGEMENT:count(),CODESAISON=1,PRIXHEB=param.prixete})
         TARIF:create({NOHEB=HEBERGEMENT:count(),CODESAISON=0,PRIXHEB=param.prixhiver})
 	end
     print("Error: can't add hebergement")
 end
 
--- reserve un hebergement
-function resHeb(session,heb,dateDebut,dateFin)
+-- book an hebergement
+function resHeb(session,heb,dateDebut,dateFin,numpers)
+    print("price resheb : "..session.price)
     local booked = isBooked(heb.NOHEB,dateDebut)
-    -- verifier que heb ,n'est pas reservé
+    -- check if hebergement isn't booked yet
     if booked == 1 then
-        book(session,heb,dateDebut,dateFin)
-        return 1
-
+        -- bresult might return "novill" or "noweek" in case of booking error or 1 if successful
+        local bresult = book(session,heb,dateDebut,dateFin,numpers)
+        print("book result : "..bresult)
+        return bresult
     elseif booked == 2 then
         print("alrdy_bked")
-        -- déjà une réservation cette semaine
+        -- already booked this week
         return 0
-
     else
-        -- erreur
+        -- error
         return 2
     end
 end
@@ -130,10 +127,6 @@ end
 
 function getHebFind(index)
 	return HEBERGEMENT:find(index)
-end
-
-function getHebSelect(request)
-	return HEBERGEMENT:select(request)
 end
 
 --********************************************************************--
@@ -147,7 +140,6 @@ end
 -- 0 = erreur, 1 = pas reservé, 2 = reservé
 function isBooked(noheb,dateDeb)
 	local res = RESERVATION:find(noheb,dateDeb)
-
 	if res == nil then
 		return 1
 	elseif res.DATEDEBSEM == dateDeb then
@@ -158,24 +150,22 @@ function isBooked(noheb,dateDeb)
 end
 
 --need to be finished
-function book(session,heb,dateDeb,dateFin,nbPers,price)
-    if price == nil then
+function book(session,heb,dateDeb,dateFin,nbPers)
+    if session.price == nil then
         print("error no season")
     else
-        local arrhes = (price/100.0)*25.0
-        print("arrhes: "..arrhes)
-        
+        local arrhes = (session.price/100.0)*25.0
 		local vill = VILLAGEOIS:find({USER = session.user.USER},"NOVILLAGEOIS")
 		if vill == nil then 
-			print("no vill")
+			return "novill"
 		else
 			--print(vill.NOMVILLAGEOIS)
 			if getWeek(dateDeb) == nil then
-				print("week does not exists")
+				return "noweek"
             else
-                local resDate = getCurrentDate()
-                RESERVATION:create({NOHEB=heb.NOHEB,DATEDEBSEM=dateDeb,NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=price,MONTANTARRHES=arrhes,NBOCCUPANT=nbPers,DATERESA=getCurrentDate()})
-			end
+                RESERVATION:create({NOHEB=heb.NOHEB,DATEDEBSEM=dateDeb,NOVILLAGEOIS=vill.NOVILLAGEOIS,CODEETATRESA=0,PRIXRESA=session.price,MONTANTARRHES=arrhes,NBOCCUPANT=nbPers,DATERESA=getCurrentDate()})
+			    return 1
+            end
  		end
     end
 end
@@ -224,17 +214,20 @@ end
 
 --***************************************************************************************************************************************************-
 --****************************** tarif *******************************--
-function getTarif(dateDeb,heb)
-    local tarif = TARIF:find(heb.NOHEB)
-    print(tarif.PRIXHEB)
-    return tarif.PRIXHEB
-end
 
 -- 0 = hiver, 1 = été
 function getTarifFind(noheb,code)
-    local tarif = TARIF:find({NOHEB = noheb,CODESAISON = code})
-    print(tarif.PRIXHEB)
-    return tarif
+    local tarif = 0
+    if code == 0 then
+        local sais = SAISON:select("where YEAR(DATEDEBSAISON) BETWEEN "..os.date("*t").year.." AND "..(os.date("*t").year + 1).." AND NOMSAISON = ? ","hiver")
+        print(TARIF:find(noheb,sais[1].CODESAISON).PRIXHEB)
+        return TARIF:find(noheb,sais[1].CODESAISON)
+    elseif code == 1 then
+        local sais = SAISON:select("where YEAR(DATEDEBSAISON) BETWEEN "..os.date("*t").year.." AND "..(os.date("*t").year + 1).." AND NOMSAISON = ? ","ete")
+        print(TARIF:find(noheb,sais[1].CODESAISON).PRIXHEB)
+        return TARIF:find(noheb,sais[1].CODESAISON)
+    end
+    return nil
 end
 
 --********************************************************************--

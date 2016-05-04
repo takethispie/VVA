@@ -1,8 +1,5 @@
-local os = require("os")
-
 function getCurrentDate()
-	local date = os.date("*t")
-	return date.year.."-"..date.month.."-"..date.day
+	return os.date("%F")
 end
 
 function getIntDate(date)
@@ -34,4 +31,8 @@ function disconnect(session)
 	session.isAdmin = false
 	session.isAVV = false
 	session.user = nil
+end
+
+function string.starts(String,Start)
+   return string.sub(String,1,string.len(Start))==Start
 end
